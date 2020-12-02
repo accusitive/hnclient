@@ -1,8 +1,7 @@
 #![allow(dead_code)]
 use iced::{
-    container::Style, container::StyleSheet, executor, Align, Application, Background, Button,
-    Color, Column, Command, Container, Element, Length, Point, Rectangle, Row, Sandbox, Scrollable,
-    Settings, Size, Space, Text,
+    executor, Align, Application, Background, Button, Color, Column, Command, Container, Element,
+    Length, Point, Rectangle, Row, Sandbox, Scrollable, Settings, Size, Space, Text,
 };
 use serde::{Deserialize, Serialize};
 type Id = u32;
@@ -53,7 +52,7 @@ struct Item {
     kids: Option<Vec<Id>>,
     url: Option<String>,
     score: Option<u32>,
-    title: String
+    title: String,
 }
 fn top_stories(max: usize) -> Vec<Item> {
     let req = reqwest::blocking::get(&format!("{}/topstories.json", BASE)).unwrap();
@@ -63,6 +62,52 @@ fn top_stories(max: usize) -> Vec<Item> {
     ids.truncate(max);
 
     ids.iter().map(|i| Item::get(*i)).collect()
+}
+struct ButtonStyle;
+impl iced::button::StyleSheet for ButtonStyle {
+    fn hovered(&self) -> iced::button::Style {
+        let active = self.active();
+
+        iced::button::Style {
+            shadow_offset: active.shadow_offset + iced::Vector::new(0.3, 0.3),
+            ..active
+        }
+    }
+
+    fn pressed(&self) -> iced::button::Style {
+        iced::button::Style {
+            shadow_offset: iced::Vector::new(3f32, 3f32),
+            ..self.active()
+        }
+    }
+
+    fn disabled(&self) -> iced::button::Style {
+        let active = self.active();
+
+        iced::button::Style {
+            shadow_offset: iced::Vector::default(),
+            background: active.background.map(|background| match background {
+                Background::Color(color) => Background::Color(Color {
+                    a: color.a * 0.5,
+                    ..color
+                }),
+            }),
+            text_color: Color {
+                a: active.text_color.a * 0.5,
+                ..active.text_color
+            },
+            ..active
+        }
+    }
+
+    fn active(&self) -> iced::button::Style {
+        iced::button::Style {
+            shadow_offset: iced::Vector::new(0f32, 0f32),
+            background: Some(Background::Color(Color::WHITE)),
+            text_color: Color::from_rgba8(0x00, 0x80, 0xff, 0.8),
+            ..Default::default()
+        }
+    }
 }
 impl Application for App {
     type Executor = executor::Default;
@@ -118,14 +163,14 @@ impl Application for App {
                 Column::new().spacing(20),
                 |mut col: Column<Message>, ((it, state), i)| {
                     if it.url.is_some() && it.by.is_some() && it.score.is_some() {
-                        let label =
-                            Text::new(format!("{}. {}", i as i32, it.title))
-                                .size(24);
+                        let label = Text::new(format!("{}. {}", i as i32, it.title)).size(24);
                         col = col.push(label);
                         let url = Text::new(it.url.as_ref().unwrap())
                             .size(15)
                             .horizontal_alignment(iced::HorizontalAlignment::Center);
-                        let butt = Button::new(state, url).on_press(Message::LinkPressed(it.id));
+                        let butt = Button::new(state, url)
+                            .on_press(Message::LinkPressed(it.id))
+                            .style(ButtonStyle {});
                         col = col.push(butt);
 
                         let under = format!(
