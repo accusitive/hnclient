@@ -1074,6 +1074,7 @@ version = "0.1.0"
 dependencies = [
  "chrono",
  "iced",
+ "iced_futures",
  "reqwest",
  "serde",
  "serde_json",
@@ -2508,7 +2509,6 @@ dependencies = [
  "lazy_static",
  "memchr",
  "mio",
- "num_cpus",
  "pin-project-lite 0.1.11",
  "slab",
 ]
