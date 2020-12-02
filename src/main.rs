@@ -1,9 +1,6 @@
 #![allow(dead_code)]
 use chrono::{TimeZone, Utc};
-use iced::{
-    executor, Align, Application, Background, Button, Color, Column, Command, Container, Length,
-    Row, Scrollable, Settings, Space, Text,
-};
+use iced::{Align, Application, Background, Button, Color, Column, Command, Container, Length, Row, Scrollable, Settings, Space, Text, TextInput, executor};
 use serde::{Deserialize, Serialize};
 use std::convert::TryInto;
 type Id = i64;
@@ -18,7 +15,7 @@ struct State {
     scroll: iced::scrollable::State,
     refresh: iced::button::State,
     back_button: iced::button::State,
-
+    text: iced::text_input::State,
     comment_button: Vec<(iced::button::State, iced::button::State)>,
 }
 #[derive(Debug)]
@@ -37,15 +34,12 @@ struct Comment {
 }
 impl Item {
     fn get(id: Id) -> Self {
+        println!("Sending request... {}", id);
         let test =
             reqwest::blocking::get(&format!("{}/item/{}.json?print=pretty", BASE, id)).unwrap();
-        let text = test.text().unwrap();
-        serde_json::from_str(&text).unwrap()
-    }
-    fn getr(id: &Id) -> Self {
-        let test =
-            reqwest::blocking::get(&format!("{}/item/{}.json?print=pretty", BASE, id)).unwrap();
-        let text = test.text().unwrap();
+            println!("Got response... {}", id);
+
+            let text = test.text().unwrap();
         serde_json::from_str(&text).unwrap()
     }
 }
@@ -171,6 +165,7 @@ impl Application for App {
                         255
                     ],
                     refresh: iced::button::State::default(),
+                    text: iced::text_input::State::default(),
                 },
                 top_stories: top_stories(3),
                 max_stories: 25,
@@ -217,7 +212,8 @@ impl Application for App {
                     .padding(24)
                     .spacing(10)
                     .push(cheems)
-                    .push(refresh);
+                    .push(refresh)
+                    ;
                 let stories = self
                     .top_stories
                     .iter()
@@ -250,6 +246,7 @@ impl Application for App {
 
                                 r = r.push(comments).push(butt);
                                 col = col.push(r);
+
                                 let under = format!(
                                     "{} points by {}",
                                     it.score.unwrap(),
@@ -285,37 +282,46 @@ impl Application for App {
                 let post = Item::get(id);
                 fn item_to_el<'a>(depth: i32, item_id: Id) -> Column<'a, Message> {
                     let mut item = Item::get(item_id);
-                    let mut r = Column::new().spacing(15);
+                    let mut col = Column::new().spacing(15);
+                    
                     if item.text.is_some() {
                         if item.by.as_ref().is_some() {
                             let d = Utc.timestamp(item.time, 0);
-                            r = r.push(
+                           
+                            col = col.push(
                                 Text::new(format!("{} {}", item.by.as_ref().unwrap(), d))
                                     .color(Color::from_rgb8(255, 165, 0)),
                             );
-                            r = r.push(Text::new(item.text.as_ref().unwrap()));
+
+                            col = col.push(Text::new(item.text.as_ref().unwrap()));
+                            col = col.push(Space::with_height(Length::Units(30)));
                         }
 
                         for i in children_as_items(&mut item) {
                             let mut row = Row::new();
-                            row = row.push(Space::with_height(Length::Units(15)));
+                            
                             row = row.push(Space::with_width(Length::Units(
-                                (depth * 15).try_into().unwrap(),
+                                (depth+1 * 45).try_into().unwrap(),
                             )));
-                            row = row.push(item_to_el(depth + 1, i.id));
-                            row = row.push(Space::with_height(Length::Units(15)));
 
-                            r = r.push(row)
+                            row = row.push(item_to_el(depth + 1, i.id));
+
+                            col = col.push(row)
                         }
                     }
-                    r
+                    col
                 }
-                for kid in post.kids.as_ref().unwrap() {
-                    let mut col = Column::new();
-                    col = col.push(item_to_el(0, *kid));
-
-                    content = content.push(col);
+                if post.kids.is_some() {
+                    for kid in post.kids.as_ref().unwrap() {
+                        let mut col = Column::new();
+                        col = col.push(item_to_el(0, *kid));
+    
+                        content = content.push(col);
+                    }
+                }else {
+                    content = content.push(Text::new("No comments yet."));
                 }
+                
                 // let kids = post.kids.as_ref().unwrap().get(0);
                 // let mut col = Column::new();
                 // col = col.push(item_to_el(0, *kids.unwrap()));
