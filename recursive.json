@@ -1,0 +1,724 @@
+[Recusrive kids: [
+    Item {
+        id: 25275900,
+        deleted: None,
+        ty: Comment,
+        by: Some(
+            "jacquesm",
+        ),
+        time: 1606913878,
+        text: Some(
+            "Fair warning: anonymization is a hard problem. It is <i>never</i> easy, and you&#x27;d be surprised how many bits can leak out of what you thought was properly anonymized data.<p>If you are using data for test purposes <i>please</i> use <i>generated</i> data, not anonymized data. This has the additional advantage that there is no potential path for live data to end up on a developers machine.<p>added in edit: And also realize that just using a service such as this or similar actually increases the chances that you are leaking sensitive data, in fact uploading somewhere it is the very best way in which you could ensure that at some point there is a breach. Don&#x27;t take the &#x27;made easy&#x27; line for granted if possible ask the company for their audit reports and what measures they have in place to ensure that your data doesn&#x27;t end up elsewhere, a company providing such a service or a chunk of software that does this is - of course - a massive target. The only way you would stay away from that extra risk is by running this on your premises on a machine that is not connected directly or indirectly to the outside world.",
+        ),
+        dead: None,
+        parent: Some(
+            25275637,
+        ),
+        kids: Some(
+            [
+                25276019,
+                25276378,
+            ],
+        ),
+        url: None,
+        score: None,
+        title: None,
+        replies___: Some(
+            [
+                Item {
+                    id: 25276019,
+                    deleted: None,
+                    ty: Comment,
+                    by: Some(
+                        "ellimilial",
+                    ),
+                    time: 1606914812,
+                    text: Some(
+                        "This.<p>Alternatively look for an open-licensed dataset if one exists in your domain (e.g. using <a href=\"https:&#x2F;&#x2F;fairsharing.org\" rel=\"nofollow\">https:&#x2F;&#x2F;fairsharing.org</a> or, shameless plug, <a href=\"https:&#x2F;&#x2F;biokeanos.com\" rel=\"nofollow\">https:&#x2F;&#x2F;biokeanos.com</a>). With generated data you always add some assumptions, with more &#x27;wild&#x27; data you have a chance to discover edge cases earlier.",
+                    ),
+                    dead: None,
+                    parent: Some(
+                        25275900,
+                    ),
+                    kids: None,
+                    url: None,
+                    score: None,
+                    title: None,
+                    replies___: Some(
+                        [],
+                    ),
+                },
+                Item {
+                    id: 25276378,
+                    deleted: None,
+                    ty: Comment,
+                    by: Some(
+                        "levesque",
+                    ),
+                    time: 1606917748,
+                    text: Some(
+                        "What about building machine learning models that make predictions on said data? Can&#x27;t just test on fake data.",
+                    ),
+                    dead: None,
+                    parent: Some(
+                        25275900,
+                    ),
+                    kids: Some(
+                        [
+                            25276423,
+                        ],
+                    ),
+                    url: None,
+                    score: None,
+                    title: None,
+                    replies___: Some(
+                        [
+                            Item {
+                                id: 25276423,
+                                deleted: None,
+                                ty: Comment,
+                                by: Some(
+                                    "jacquesm",
+                                ),
+                                time: 1606918054,
+                                text: Some(
+                                    "There is a German company that specializes in this: <a href=\"https:&#x2F;&#x2F;www.statice.ai&#x2F;\" rel=\"nofollow\">https:&#x2F;&#x2F;www.statice.ai&#x2F;</a> , and that too is a path that you should only walk if you fully understand the subject matter.<p>So you could instead test on fake data that has the same (or as much as possible the same) statistical properties as the data that you would like to use.",
+                                ),
+                                dead: None,
+                                parent: Some(
+                                    25276378,
+                                ),
+                                kids: None,
+                                url: None,
+                                score: None,
+                                title: None,
+                                replies___: Some(
+                                    [],
+                                ),
+                            },
+                        ],
+                    ),
+                },
+            ],
+        ),
+    },
+    Item {
+        id: 25276035,
+        deleted: None,
+        ty: Comment,
+        by: Some(
+            "m0nster",
+        ),
+        time: 1606914939,
+        text: Some(
+            "If you&#x27;re interested in tools such as Amnesia, you might also want to take a look at ARX, which supports much more anonymization methods, including Differential Privacy:<p><a href=\"https:&#x2F;&#x2F;arx.deidentifier.org\" rel=\"nofollow\">https:&#x2F;&#x2F;arx.deidentifier.org</a><p><a href=\"https:&#x2F;&#x2F;github.com&#x2F;arx-deidentifier&#x2F;arx\" rel=\"nofollow\">https:&#x2F;&#x2F;github.com&#x2F;arx-deidentifier&#x2F;arx</a><p>Disclosure: I&#x27;m the main author of ARX.",
+        ),
+        dead: None,
+        parent: Some(
+            25275637,
+        ),
+        kids: Some(
+            [
+                25276447,
+            ],
+        ),
+        url: None,
+        score: None,
+        title: None,
+        replies___: Some(
+            [
+                Item {
+                    id: 25276447,
+                    deleted: None,
+                    ty: Comment,
+                    by: Some(
+                        "jacquesm",
+                    ),
+                    time: 1606918225,
+                    text: Some(
+                        "And has a huge advantage: it runs local.",
+                    ),
+                    dead: None,
+                    parent: Some(
+                        25276035,
+                    ),
+                    kids: None,
+                    url: None,
+                    score: None,
+                    title: None,
+                    replies___: Some(
+                        [],
+                    ),
+                },
+            ],
+        ),
+    },
+    Item {
+        id: 25275824,
+        deleted: None,
+        ty: Comment,
+        by: Some(
+            "Wronnay",
+        ),
+        time: 1606913019,
+        text: Some(
+            "<a href=\"https:&#x2F;&#x2F;web.archive.org&#x2F;web&#x2F;20201202123130&#x2F;https:&#x2F;&#x2F;amnesia.openaire.eu&#x2F;\" rel=\"nofollow\">https:&#x2F;&#x2F;web.archive.org&#x2F;web&#x2F;20201202123130&#x2F;https:&#x2F;&#x2F;amnesia.o...</a>",
+        ),
+        dead: None,
+        parent: Some(
+            25275637,
+        ),
+        kids: None,
+        url: None,
+        score: None,
+        title: None,
+        replies___: Some(
+            [],
+        ),
+    },
+    Item {
+        id: 25276289,
+        deleted: None,
+        ty: Comment,
+        by: Some(
+            "privacylawthrow",
+        ),
+        time: 1606917014,
+        text: Some(
+            "For data to be anonymous under GDPR, it is not enough that individuals cannot be identified from the anonymized data set. If individuals can be identified when the anonymous data set is compared with the source data set, the anonymized data is not &quot;anonymous&quot;.<p>For data to be truly anonymous under GDPR. there must be no other additional data that would allow for reidentification. If there is any other data that, when combined with the anonymous data, allows for reidentification, the data set is only pseudonymous and must be treated as personal data under GDPR.",
+        ),
+        dead: None,
+        parent: Some(
+            25275637,
+        ),
+        kids: Some(
+            [
+                25276344,
+            ],
+        ),
+        url: None,
+        score: None,
+        title: None,
+        replies___: Some(
+            [
+                Item {
+                    id: 25276344,
+                    deleted: None,
+                    ty: Comment,
+                    by: Some(
+                        "3np",
+                    ),
+                    time: 1606917519,
+                    text: Some(
+                        "That&#x27;s the most concise and clear formulation of that I&#x27;ve seen so far. Thanks.",
+                    ),
+                    dead: None,
+                    parent: Some(
+                        25276289,
+                    ),
+                    kids: None,
+                    url: None,
+                    score: None,
+                    title: None,
+                    replies___: Some(
+                        [],
+                    ),
+                },
+            ],
+        ),
+    },
+    Item {
+        id: 25275776,
+        deleted: None,
+        ty: Comment,
+        by: Some(
+            "haffi112",
+        ),
+        time: 1606912472,
+        text: Some(
+            "Do these methods provide any guarantees or is it assumed that a human reviews the output to verify that it was properly anonymized?",
+        ),
+        dead: None,
+        parent: Some(
+            25275637,
+        ),
+        kids: Some(
+            [
+                25275899,
+                25275923,
+            ],
+        ),
+        url: None,
+        score: None,
+        title: None,
+        replies___: Some(
+            [
+                Item {
+                    id: 25275899,
+                    deleted: None,
+                    ty: Comment,
+                    by: Some(
+                        "frankmcsherry",
+                    ),
+                    time: 1606913847,
+                    text: Some(
+                        "&gt; Data anonymized with Amnesia are <i>statistically guaranteed</i> that they cannot be linked to the original data.<p>It looks like (from other text on their site) they use variants on k-anonymity. This <i>can</i> prevent re-linking attacks back to the original data, but we&#x27;ve also known for a decade that this isn&#x27;t especially strong. For example, two independent k-anonymous releases can unique identify everyone in the dataset[0].<p>[0]: <a href=\"https:&#x2F;&#x2F;dl.acm.org&#x2F;doi&#x2F;10.1145&#x2F;1401890.1401926\" rel=\"nofollow\">https:&#x2F;&#x2F;dl.acm.org&#x2F;doi&#x2F;10.1145&#x2F;1401890.1401926</a>",
+                    ),
+                    dead: None,
+                    parent: Some(
+                        25275776,
+                    ),
+                    kids: None,
+                    url: None,
+                    score: None,
+                    title: None,
+                    replies___: Some(
+                        [],
+                    ),
+                },
+                Item {
+                    id: 25275923,
+                    deleted: None,
+                    ty: Comment,
+                    by: Some(
+                        "specialist",
+                    ),
+                    time: 1606914113,
+                    text: Some(
+                        "The very best case for Amnesia: veneer of GDPR compliance, maybe survive an audit.<p>Clients are buying plausible deniability, hedging their liability.<p>&quot;Yes, we regrettably leaked sensitive data. But we followed all the rules. What more could we possibly do?&quot;",
+                    ),
+                    dead: None,
+                    parent: Some(
+                        25275776,
+                    ),
+                    kids: Some(
+                        [
+                            25275982,
+                        ],
+                    ),
+                    url: None,
+                    score: None,
+                    title: None,
+                    replies___: Some(
+                        [
+                            Item {
+                                id: 25275982,
+                                deleted: None,
+                                ty: Comment,
+                                by: Some(
+                                    "teraku",
+                                ),
+                                time: 1606914574,
+                                text: Some(
+                                    "&quot;Not save my data in illegal ways&quot;<p>Edit: &quot;Not save my data&quot;",
+                                ),
+                                dead: None,
+                                parent: Some(
+                                    25275923,
+                                ),
+                                kids: Some(
+                                    [
+                                        25276004,
+                                    ],
+                                ),
+                                url: None,
+                                score: None,
+                                title: None,
+                                replies___: Some(
+                                    [
+                                        Item {
+                                            id: 25276004,
+                                            deleted: None,
+                                            ty: Comment,
+                                            by: Some(
+                                                "specialist",
+                                            ),
+                                            time: 1606914708,
+                                            text: Some(
+                                                "This product is for orgs sharing data.",
+                                            ),
+                                            dead: None,
+                                            parent: Some(
+                                                25275982,
+                                            ),
+                                            kids: Some(
+                                                [
+                                                    25276132,
+                                                ],
+                                            ),
+                                            url: None,
+                                            score: None,
+                                            title: None,
+                                            replies___: Some(
+                                                [
+                                                    Item {
+                                                        id: 25276132,
+                                                        deleted: None,
+                                                        ty: Comment,
+                                                        by: Some(
+                                                            "corty",
+                                                        ),
+                                                        time: 1606915696,
+                                                        text: Some(
+                                                            "Even more illegal.",
+                                                        ),
+                                                        dead: None,
+                                                        parent: Some(
+                                                            25276004,
+                                                        ),
+                                                        kids: Some(
+                                                            [
+                                                                25276185,
+                                                                25276367,
+                                                            ],
+                                                        ),
+                                                        url: None,
+                                                        score: None,
+                                                        title: None,
+                                                        replies___: Some(
+                                                            [
+                                                                Item {
+                                                                    id: 25276185,
+                                                                    deleted: None,
+                                                                    ty: Comment,
+                                                                    by: Some(
+                                                                        "ghaff",
+                                                                    ),
+                                                                    time: 1606916097,
+                                                                    text: Some(
+                                                                        "There are plenty of valid reasons to share data, e.g. for medical research among others.",
+                                                                    ),
+                                                                    dead: None,
+                                                                    parent: Some(
+                                                                        25276132,
+                                                                    ),
+                                                                    kids: Some(
+                                                                        [
+                                                                            25276424,
+                                                                        ],
+                                                                    ),
+                                                                    url: None,
+                                                                    score: None,
+                                                                    title: None,
+                                                                    replies___: Some(
+                                                                        [
+                                                                            Item {
+                                                                                id: 25276424,
+                                                                                deleted: None,
+                                                                                ty: Comment,
+                                                                                by: Some(
+                                                                                    "iso1631",
+                                                                                ),
+                                                                                time: 1606918065,
+                                                                                text: Some(
+                                                                                    "Then get informed consent",
+                                                                                ),
+                                                                                dead: None,
+                                                                                parent: Some(
+                                                                                    25276185,
+                                                                                ),
+                                                                                kids: Some(
+                                                                                    [
+                                                                                        25276444,
+                                                                                    ],
+                                                                                ),
+                                                                                url: None,
+                                                                                score: None,
+                                                                                title: None,
+                                                                                replies___: Some(
+                                                                                    [
+                                                                                        Item {
+                                                                                            id: 25276444,
+                                                                                            deleted: None,
+                                                                                            ty: Comment,
+                                                                                            by: Some(
+                                                                                                "jacquesm",
+                                                                                            ),
+                                                                                            time: 1606918199,
+                                                                                            text: Some(
+                                                                                                "That&#x27;s a must. In some countries this is now automated at the government level, Belgium for instance has an excellent consent mechanism for medical data.",
+                                                                                            ),
+                                                                                            dead: None,
+                                                                                            parent: Some(
+                                                                                                25276424,
+                                                                                            ),
+                                                                                            kids: Some(
+                                                                                                [
+                                                                                                    25276520,
+                                                                                                ],
+                                                                                            ),
+                                                                                            url: None,
+                                                                                            score: None,
+                                                                                            title: None,
+                                                                                            replies___: Some(
+                                                                                                [
+                                                                                                    Item {
+                                                                                                        id: 25276520,
+                                                                                                        deleted: None,
+                                                                                                        ty: Comment,
+                                                                                                        by: Some(
+                                                                                                            "ghaff",
+                                                                                                        ),
+                                                                                                        time: 1606918818,
+                                                                                                        text: Some(
+                                                                                                            "Right. But that still involves anonymizing data.<p>I&#x27;d also point out that there is a huge amount of COVID data being shared at the moment and, outside of vaccine trials, I&#x27;d be pretty certain a lot of it is not under any sort of informed consent. (As is true of a lot of population statistics generally.)",
+                                                                                                        ),
+                                                                                                        dead: None,
+                                                                                                        parent: Some(
+                                                                                                            25276444,
+                                                                                                        ),
+                                                                                                        kids: None,
+                                                                                                        url: None,
+                                                                                                        score: None,
+                                                                                                        title: None,
+                                                                                                        replies___: Some(
+                                                                                                            [],
+                                                                                                        ),
+                                                                                                    },
+                                                                                                ],
+                                                                                            ),
+                                                                                        },
+                                                                                    ],
+                                                                                ),
+                                                                            },
+                                                                        ],
+                                                                    ),
+                                                                },
+                                                                Item {
+                                                                    id: 25276367,
+                                                                    deleted: None,
+                                                                    ty: Comment,
+                                                                    by: Some(
+                                                                        "jacquesm",
+                                                                    ),
+                                                                    time: 1606917658,
+                                                                    text: Some(
+                                                                        "Not necessarily, but very hard to do properly.",
+                                                                    ),
+                                                                    dead: None,
+                                                                    parent: Some(
+                                                                        25276132,
+                                                                    ),
+                                                                    kids: None,
+                                                                    url: None,
+                                                                    score: None,
+                                                                    title: None,
+                                                                    replies___: Some(
+                                                                        [],
+                                                                    ),
+                                                                },
+                                                            ],
+                                                        ),
+                                                    },
+                                                ],
+                                            ),
+                                        },
+                                    ],
+                                ),
+                            },
+                        ],
+                    ),
+                },
+            ],
+        ),
+    },
+    Item {
+        id: 25276204,
+        deleted: None,
+        ty: Comment,
+        by: Some(
+            "jhfdbkofdcho",
+        ),
+        time: 1606916304,
+        text: Some(
+            "This is not easy. This is not an easy thing to do and protect the data. Please don’t call this easy.",
+        ),
+        dead: None,
+        parent: Some(
+            25275637,
+        ),
+        kids: Some(
+            [
+                25276488,
+            ],
+        ),
+        url: None,
+        score: None,
+        title: None,
+        replies___: Some(
+            [
+                Item {
+                    id: 25276488,
+                    deleted: None,
+                    ty: Comment,
+                    by: Some(
+                        "kebman",
+                    ),
+                    time: 1606918544,
+                    text: Some(
+                        "Schools think it&#x27;s enough anonymization to call pupils by their initials while mailing back and forth grades and sensitive data and characterizations about them. It&#x27;s a rampant problem.",
+                    ),
+                    dead: None,
+                    parent: Some(
+                        25276204,
+                    ),
+                    kids: None,
+                    url: None,
+                    score: None,
+                    title: None,
+                    replies___: Some(
+                        [],
+                    ),
+                },
+            ],
+        ),
+    },
+]
+Item {
+    id: 25275900,
+    deleted: None,
+    ty: Comment,
+    by: Some(
+        "jacquesm",
+    ),
+    time: 1606913878,
+    text: Some(
+        "Fair warning: anonymization is a hard problem. It is <i>never</i> easy, and you&#x27;d be surprised how many bits can leak out of what you thought was properly anonymized data.<p>If you are using data for test purposes <i>please</i> use <i>generated</i> data, not anonymized data. This has the additional advantage that there is no potential path for live data to end up on a developers machine.<p>added in edit: And also realize that just using a service such as this or similar actually increases the chances that you are leaking sensitive data, in fact uploading somewhere it is the very best way in which you could ensure that at some point there is a breach. Don&#x27;t take the &#x27;made easy&#x27; line for granted if possible ask the company for their audit reports and what measures they have in place to ensure that your data doesn&#x27;t end up elsewhere, a company providing such a service or a chunk of software that does this is - of course - a massive target. The only way you would stay away from that extra risk is by running this on your premises on a machine that is not connected directly or indirectly to the outside world.",
+    ),
+    dead: None,
+    parent: Some(
+        25275637,
+    ),
+    kids: Some(
+        [
+            25276019,
+            25276378,
+        ],
+    ),
+    url: None,
+    score: None,
+    title: None,
+    replies___: None,
+}
+Item {
+    id: 25276035,
+    deleted: None,
+    ty: Comment,
+    by: Some(
+        "m0nster",
+    ),
+    time: 1606914939,
+    text: Some(
+        "If you&#x27;re interested in tools such as Amnesia, you might also want to take a look at ARX, which supports much more anonymization methods, including Differential Privacy:<p><a href=\"https:&#x2F;&#x2F;arx.deidentifier.org\" rel=\"nofollow\">https:&#x2F;&#x2F;arx.deidentifier.org</a><p><a href=\"https:&#x2F;&#x2F;github.com&#x2F;arx-deidentifier&#x2F;arx\" rel=\"nofollow\">https:&#x2F;&#x2F;github.com&#x2F;arx-deidentifier&#x2F;arx</a><p>Disclosure: I&#x27;m the main author of ARX.",
+    ),
+    dead: None,
+    parent: Some(
+        25275637,
+    ),
+    kids: Some(
+        [
+            25276447,
+        ],
+    ),
+    url: None,
+    score: None,
+    title: None,
+    replies___: None,
+}
+Item {
+    id: 25275824,
+    deleted: None,
+    ty: Comment,
+    by: Some(
+        "Wronnay",
+    ),
+    time: 1606913019,
+    text: Some(
+        "<a href=\"https:&#x2F;&#x2F;web.archive.org&#x2F;web&#x2F;20201202123130&#x2F;https:&#x2F;&#x2F;amnesia.openaire.eu&#x2F;\" rel=\"nofollow\">https:&#x2F;&#x2F;web.archive.org&#x2F;web&#x2F;20201202123130&#x2F;https:&#x2F;&#x2F;amnesia.o...</a>",
+    ),
+    dead: None,
+    parent: Some(
+        25275637,
+    ),
+    kids: None,
+    url: None,
+    score: None,
+    title: None,
+    replies___: None,
+}
+Item {
+    id: 25276289,
+    deleted: None,
+    ty: Comment,
+    by: Some(
+        "privacylawthrow",
+    ),
+    time: 1606917014,
+    text: Some(
+        "For data to be anonymous under GDPR, it is not enough that individuals cannot be identified from the anonymized data set. If individuals can be identified when the anonymous data set is compared with the source data set, the anonymized data is not &quot;anonymous&quot;.<p>For data to be truly anonymous under GDPR. there must be no other additional data that would allow for reidentification. If there is any other data that, when combined with the anonymous data, allows for reidentification, the data set is only pseudonymous and must be treated as personal data under GDPR.",
+    ),
+    dead: None,
+    parent: Some(
+        25275637,
+    ),
+    kids: Some(
+        [
+            25276344,
+        ],
+    ),
+    url: None,
+    score: None,
+    title: None,
+    replies___: None,
+}
+Item {
+    id: 25275776,
+    deleted: None,
+    ty: Comment,
+    by: Some(
+        "haffi112",
+    ),
+    time: 1606912472,
+    text: Some(
+        "Do these methods provide any guarantees or is it assumed that a human reviews the output to verify that it was properly anonymized?",
+    ),
+    dead: None,
+    parent: Some(
+        25275637,
+    ),
+    kids: Some(
+        [
+            25275899,
+            25275923,
+        ],
+    ),
+    url: None,
+    score: None,
+    title: None,
+    replies___: None,
+}
+Item {
+    id: 25276204,
+    deleted: None,
+    ty: Comment,
+    by: Some(
+        "jhfdbkofdcho",
+    ),
+    time: 1606916304,
+    text: Some(
+        "This is not easy. This is not an easy thing to do and protect the data. Please don’t call this easy.",
+    ),
+    dead: None,
+    parent: Some(
+        25275637,
+    ),
+    kids: Some(
+        [
+            25276488,
+        ],
+    ),
+    url: None,
+    score: None,
+    title: None,
+    replies___: None,
+}]
