@@ -1,8 +1,8 @@
 #![allow(dead_code)]
-use chrono::{DateTime, TimeZone, Utc};
+use chrono::{TimeZone, Utc};
 use iced::{
     executor, Align, Application, Background, Button, Color, Column, Command, Container, Length,
-    Row, Sandbox, Scrollable, Settings, Space, Text,
+    Row, Scrollable, Settings, Space, Text,
 };
 use serde::{Deserialize, Serialize};
 use std::convert::TryInto;
@@ -282,7 +282,7 @@ impl Application for App {
                         .style(ButtonStyle {})
                         .on_press(Message::GotoHome),
                 );
-                let mut post = Item::get(id);
+                let post = Item::get(id);
                 fn item_to_el<'a>(depth: i32, item_id: Id) -> Column<'a, Message> {
                     let mut item = Item::get(item_id);
                     let mut r = Column::new().spacing(15);
