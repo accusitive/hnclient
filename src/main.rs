@@ -5,18 +5,35 @@ use iced::{
     executor, Align, Application, Background, Button, Color, Column, Command, Container, Length,
     Row, Scrollable, Settings, Space, Text, TextInput,
 };
+use serde::{Serialize, Deserialize};
 use std::convert::TryInto;
 type Id = i64;
 mod api;
+const BASE: &str = "https://hacker-news.firebaseio.com/v0";
 #[derive(Debug)]
 enum Mode {
     HomePage,
     Comment(Id),
 }
-async fn test_a() -> Message {
-    // println!("async!!!");
-    std::thread::sleep_ms(2000);
-    Message::Add("Aa".to_string())
+#[derive(Debug, Clone, Deserialize, Serialize)]
+struct Item {
+    id: Id,
+    kids: Option<Vec<Id>>
+}
+async fn test_a(root: Id) -> Message  {
+    let ids = async {
+        println!("sending reqwest");
+        let item = reqwest::get(&format!("{}/item/{}.json", BASE, root)).await.unwrap() ;
+        println!("seny reqwest");
+        let text = item.text().await.unwrap();
+        println!("TExt {}", text);
+        let item: Item = serde_json::from_str(&text).unwrap();
+        let ids = item.kids.unwrap_or(vec![]);
+        ids
+    }.await;
+   
+    // std::thread::sleep_ms(2000);
+    Message::FoundNodes(ids)
 }
 #[derive(Debug)]
 struct State {
@@ -119,23 +136,44 @@ impl Application for App {
                 // let post = self.top_stories.iter().find(|it| it.id == i).unwrap();
                 // let url = post.url.as_ref().unwrap();
                 // webbrowser::open("bing.com").unwrap();
+                Command::none()
             }
             Message::Refresh => {
                 println!("Refreshed.");
+                
+                Command::perform(test_a(25285862), |i| {
+                    println!("Refresh => got {:#?}", i);
+                    i
+                })
             }
             // Message::Refresh => self.top_stories = top_stories(self.max_stories),
             Message::GotoComments(id) => {
                 self.mode = Mode::Comment(id);
+                Command::none()
             }
             Message::GotoHome => {
                 self.mode = Mode::HomePage;
+                Command::none()
             }
-            Message::Add(s) => self.state.texts.push(s),
-        };
-        Command::perform(test_a(), |v| {
-            println!("Perfomrmedf");
-            v
-        })
+            Message::Add(s) => {
+                self.state.texts.push(s);
+                Command::none()
+            }
+            
+            Message::FoundNodes(nodes) => {
+                let mut commands = vec![];
+                for node in &nodes {
+                    commands.push(Command::perform(test_a(*node), |r| {
+                        println!("mESSAGE :{:#?}", r);
+                        r
+                    }));
+                }
+
+                Command::batch(commands)
+
+            }
+        }
+
         // Command::perform(iced_futures::futures::future::pending(), async |f: Message|  {
         //     println!("performing");
         //     return Message::Refresh
@@ -203,7 +241,9 @@ pub enum Message {
     GotoHome,
     Refresh,
     Add(String),
+    FoundNodes(Vec<Id>),
 }
+
 fn main() {
     App::run(Settings::default()).unwrap();
 }

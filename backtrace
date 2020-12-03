@@ -1,0 +1,166 @@
+thread '<unnamed>' panicked at 'not currently running on the Tokio runtime.', /home/accusitive/.cargo/registry/src/github.com-1ecc6299db9ec823/tokio-0.2.23/src/runtime/handle.rs:118:28
+stack backtrace:
+   0: rust_begin_unwind
+             at /rustc/adef9da30f1ecbfeb81312d01ed94ac53f7161ba/library/std/src/panicking.rs:483:5
+   1: core::panicking::panic_fmt
+             at /rustc/adef9da30f1ecbfeb81312d01ed94ac53f7161ba/library/core/src/panicking.rs:85:14
+   2: core::option::expect_failed
+             at /rustc/adef9da30f1ecbfeb81312d01ed94ac53f7161ba/library/core/src/option.rs:1229:5
+   3: core::option::Option<T>::expect
+             at /home/accusitive/.rustup/toolchains/nightly-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/option.rs:349:21
+   4: tokio::runtime::handle::Handle::current
+             at /home/accusitive/.cargo/registry/src/github.com-1ecc6299db9ec823/tokio-0.2.23/src/runtime/handle.rs:118:9
+   5: tokio::runtime::blocking::pool::spawn_blocking
+             at /home/accusitive/.cargo/registry/src/github.com-1ecc6299db9ec823/tokio-0.2.23/src/runtime/blocking/pool.rs:69:14
+   6: tokio::task::blocking::spawn_blocking
+             at /home/accusitive/.cargo/registry/src/github.com-1ecc6299db9ec823/tokio-0.2.23/src/task/blocking.rs:130:9
+   7: <hyper::client::connect::dns::GaiResolver as tower_service::Service<hyper::client::connect::dns::Name>>::call
+             at /home/accusitive/.cargo/registry/src/github.com-1ecc6299db9ec823/hyper-0.13.9/src/client/connect/dns.rs:120:24
+   8: <S as hyper::client::connect::dns::sealed::Resolve>::resolve
+             at /home/accusitive/.cargo/registry/src/github.com-1ecc6299db9ec823/hyper-0.13.9/src/client/connect/dns.rs:344:13
+   9: hyper::client::connect::dns::resolve::{{closure}}
+             at /home/accusitive/.cargo/registry/src/github.com-1ecc6299db9ec823/hyper-0.13.9/src/client/connect/dns.rs:354:5
+  10: <core::future::from_generator::GenFuture<T> as core::future::future::Future>::poll
+             at /home/accusitive/.rustup/toolchains/nightly-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/future/mod.rs:80:19
+  11: hyper::client::connect::http::HttpConnector<R>::call_async::{{closure}}
+             at /home/accusitive/.cargo/registry/src/github.com-1ecc6299db9ec823/hyper-0.13.9/src/client/connect/http.rs:327:25
+  12: <core::future::from_generator::GenFuture<T> as core::future::future::Future>::poll
+             at /home/accusitive/.rustup/toolchains/nightly-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/future/mod.rs:80:19
+  13: <hyper::client::connect::http::HttpConnector<R> as tower_service::Service<http::uri::Uri>>::call::{{closure}}
+             at /home/accusitive/.cargo/registry/src/github.com-1ecc6299db9ec823/hyper-0.13.9/src/client/connect/http.rs:268:40
+  14: <core::future::from_generator::GenFuture<T> as core::future::future::Future>::poll
+             at /home/accusitive/.rustup/toolchains/nightly-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/future/mod.rs:80:19
+  15: <core::pin::Pin<P> as core::future::future::Future>::poll
+             at /home/accusitive/.rustup/toolchains/nightly-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/future/future.rs:119:9
+  16: <hyper::client::connect::http::HttpConnecting<R> as core::future::future::Future>::poll
+             at /home/accusitive/.cargo/registry/src/github.com-1ecc6299db9ec823/hyper-0.13.9/src/client/connect/http.rs:409:9
+  17: <futures_util::future::either::Either<A,B> as core::future::future::Future>::poll
+             at /home/accusitive/.cargo/registry/src/github.com-1ecc6299db9ec823/futures-util-0.3.8/src/future/either.rs:63:36
+  18: <hyper_tls::client::HttpsConnector<T> as tower_service::Service<http::uri::Uri>>::call::{{closure}}
+             at /home/accusitive/.cargo/registry/src/github.com-1ecc6299db9ec823/hyper-tls-0.4.3/src/client.rs:127:23
+  19: <core::future::from_generator::GenFuture<T> as core::future::future::Future>::poll
+             at /home/accusitive/.rustup/toolchains/nightly-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/future/mod.rs:80:19
+  20: <core::pin::Pin<P> as core::future::future::Future>::poll
+             at /home/accusitive/.rustup/toolchains/nightly-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/future/future.rs:119:9
+  21: <hyper_tls::client::HttpsConnecting<T> as core::future::future::Future>::poll
+             at /home/accusitive/.cargo/registry/src/github.com-1ecc6299db9ec823/hyper-tls-0.4.3/src/client.rs:156:9
+  22: reqwest::connect::Connector::connect_with_maybe_proxy::{{closure}}
+             at /home/accusitive/.cargo/registry/src/github.com-1ecc6299db9ec823/reqwest-0.10.9/src/connect.rs:347:26
+  23: <core::future::from_generator::GenFuture<T> as core::future::future::Future>::poll
+             at /home/accusitive/.rustup/toolchains/nightly-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/future/mod.rs:80:19
+  24: reqwest::connect::with_timeout::{{closure}}
+             at /home/accusitive/.cargo/registry/src/github.com-1ecc6299db9ec823/reqwest-0.10.9/src/connect.rs:512:9
+  25: <core::future::from_generator::GenFuture<T> as core::future::future::Future>::poll
+             at /home/accusitive/.rustup/toolchains/nightly-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/future/mod.rs:80:19
+  26: <core::pin::Pin<P> as core::future::future::Future>::poll
+             at /home/accusitive/.rustup/toolchains/nightly-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/future/future.rs:119:9
+  27: <hyper::service::oneshot::Oneshot<S,Req> as core::future::future::Future>::poll
+             at /home/accusitive/.cargo/registry/src/github.com-1ecc6299db9ec823/hyper-0.13.9/src/service/oneshot.rs:50:28
+  28: <F as futures_core::future::TryFuture>::try_poll
+             at /home/accusitive/.cargo/registry/src/github.com-1ecc6299db9ec823/futures-core-0.3.8/src/future.rs:83:9
+  29: <futures_util::future::try_future::into_future::IntoFuture<Fut> as core::future::future::Future>::poll
+             at /home/accusitive/.cargo/registry/src/github.com-1ecc6299db9ec823/futures-util-0.3.8/src/future/try_future/into_future.rs:31:9
+  30: <futures_util::future::future::map::Map<Fut,F> as core::future::future::Future>::poll
+             at /home/accusitive/.cargo/registry/src/github.com-1ecc6299db9ec823/futures-util-0.3.8/src/future/future/map.rs:49:37
+  31: <futures_util::future::future::Map<Fut,F> as core::future::future::Future>::poll
+             at /home/accusitive/.cargo/registry/src/github.com-1ecc6299db9ec823/futures-util-0.3.8/src/lib.rs:113:13
+  32: <futures_util::future::try_future::MapErr<Fut,F> as core::future::future::Future>::poll
+             at /home/accusitive/.cargo/registry/src/github.com-1ecc6299db9ec823/futures-util-0.3.8/src/lib.rs:113:13
+  33: <F as futures_core::future::TryFuture>::try_poll
+             at /home/accusitive/.cargo/registry/src/github.com-1ecc6299db9ec823/futures-core-0.3.8/src/future.rs:83:9
+  34: <futures_util::future::try_future::into_future::IntoFuture<Fut> as core::future::future::Future>::poll
+             at /home/accusitive/.cargo/registry/src/github.com-1ecc6299db9ec823/futures-util-0.3.8/src/future/try_future/into_future.rs:31:9
+  35: <futures_util::future::future::map::Map<Fut,F> as core::future::future::Future>::poll
+             at /home/accusitive/.cargo/registry/src/github.com-1ecc6299db9ec823/futures-util-0.3.8/src/future/future/map.rs:49:37
+  36: <futures_util::future::future::Map<Fut,F> as core::future::future::Future>::poll
+             at /home/accusitive/.cargo/registry/src/github.com-1ecc6299db9ec823/futures-util-0.3.8/src/lib.rs:113:13
+  37: <futures_util::future::try_future::MapOk<Fut,F> as core::future::future::Future>::poll
+             at /home/accusitive/.cargo/registry/src/github.com-1ecc6299db9ec823/futures-util-0.3.8/src/lib.rs:113:13
+  38: <F as futures_core::future::TryFuture>::try_poll
+             at /home/accusitive/.cargo/registry/src/github.com-1ecc6299db9ec823/futures-core-0.3.8/src/future.rs:83:9
+  39: <futures_util::future::try_future::try_flatten::TryFlatten<Fut,<Fut as futures_core::future::TryFuture>::Ok> as core::future::future::Future>::poll
+             at /home/accusitive/.cargo/registry/src/github.com-1ecc6299db9ec823/futures-util-0.3.8/src/future/try_future/try_flatten.rs:45:34
+  40: <futures_util::future::try_future::TryFlatten<Fut1,Fut2> as core::future::future::Future>::poll
+             at /home/accusitive/.cargo/registry/src/github.com-1ecc6299db9ec823/futures-util-0.3.8/src/lib.rs:113:13
+  41: <futures_util::future::try_future::AndThen<Fut1,Fut2,F> as core::future::future::Future>::poll
+             at /home/accusitive/.cargo/registry/src/github.com-1ecc6299db9ec823/futures-util-0.3.8/src/lib.rs:113:13
+  42: <futures_util::future::either::Either<A,B> as core::future::future::Future>::poll
+             at /home/accusitive/.cargo/registry/src/github.com-1ecc6299db9ec823/futures-util-0.3.8/src/future/either.rs:63:36
+  43: <hyper::common::lazy::Lazy<F,R> as core::future::future::Future>::poll
+             at /home/accusitive/.cargo/registry/src/github.com-1ecc6299db9ec823/hyper-0.13.9/src/common/lazy.rs:59:27
+  44: futures_util::future::future::FutureExt::poll_unpin
+             at /home/accusitive/.cargo/registry/src/github.com-1ecc6299db9ec823/futures-util-0.3.8/src/future/future/mod.rs:561:9
+  45: <futures_util::future::select::Select<A,B> as core::future::future::Future>::poll
+             at /home/accusitive/.cargo/registry/src/github.com-1ecc6299db9ec823/futures-util-0.3.8/src/future/select.rs:92:36
+  46: <futures_util::future::future::map::Map<Fut,F> as core::future::future::Future>::poll
+             at /home/accusitive/.cargo/registry/src/github.com-1ecc6299db9ec823/futures-util-0.3.8/src/future/future/map.rs:49:37
+  47: <futures_util::future::future::Map<Fut,F> as core::future::future::Future>::poll
+             at /home/accusitive/.cargo/registry/src/github.com-1ecc6299db9ec823/futures-util-0.3.8/src/lib.rs:113:13
+  48: <futures_util::future::future::flatten::Flatten<Fut,<Fut as core::future::future::Future>::Output> as core::future::future::Future>::poll
+             at /home/accusitive/.cargo/registry/src/github.com-1ecc6299db9ec823/futures-util-0.3.8/src/future/future/flatten.rs:45:36
+  49: <futures_util::future::future::Then<Fut1,Fut2,F> as core::future::future::Future>::poll
+             at /home/accusitive/.cargo/registry/src/github.com-1ecc6299db9ec823/futures-util-0.3.8/src/lib.rs:113:13
+  50: <F as futures_core::future::TryFuture>::try_poll
+             at /home/accusitive/.cargo/registry/src/github.com-1ecc6299db9ec823/futures-core-0.3.8/src/future.rs:83:9
+  51: <futures_util::future::try_future::into_future::IntoFuture<Fut> as core::future::future::Future>::poll
+             at /home/accusitive/.cargo/registry/src/github.com-1ecc6299db9ec823/futures-util-0.3.8/src/future/try_future/into_future.rs:31:9
+  52: <futures_util::future::future::map::Map<Fut,F> as core::future::future::Future>::poll
+             at /home/accusitive/.cargo/registry/src/github.com-1ecc6299db9ec823/futures-util-0.3.8/src/future/future/map.rs:49:37
+  53: <futures_util::future::future::Map<Fut,F> as core::future::future::Future>::poll
+             at /home/accusitive/.cargo/registry/src/github.com-1ecc6299db9ec823/futures-util-0.3.8/src/lib.rs:113:13
+  54: <futures_util::future::try_future::MapOk<Fut,F> as core::future::future::Future>::poll
+             at /home/accusitive/.cargo/registry/src/github.com-1ecc6299db9ec823/futures-util-0.3.8/src/lib.rs:113:13
+  55: <F as futures_core::future::TryFuture>::try_poll
+             at /home/accusitive/.cargo/registry/src/github.com-1ecc6299db9ec823/futures-core-0.3.8/src/future.rs:83:9
+  56: <futures_util::future::try_future::try_flatten::TryFlatten<Fut,<Fut as futures_core::future::TryFuture>::Ok> as core::future::future::Future>::poll
+             at /home/accusitive/.cargo/registry/src/github.com-1ecc6299db9ec823/futures-util-0.3.8/src/future/try_future/try_flatten.rs:45:34
+  57: <futures_util::future::try_future::TryFlatten<Fut1,Fut2> as core::future::future::Future>::poll
+             at /home/accusitive/.cargo/registry/src/github.com-1ecc6299db9ec823/futures-util-0.3.8/src/lib.rs:113:13
+  58: <futures_util::future::try_future::AndThen<Fut1,Fut2,F> as core::future::future::Future>::poll
+             at /home/accusitive/.cargo/registry/src/github.com-1ecc6299db9ec823/futures-util-0.3.8/src/lib.rs:113:13
+  59: hyper::client::Client<C,B>::retryably_send_request::{{closure}}
+             at /home/accusitive/.cargo/registry/src/github.com-1ecc6299db9ec823/hyper-0.13.9/src/client/mod.rs:256:26
+  60: <futures_util::future::poll_fn::PollFn<F> as core::future::future::Future>::poll
+             at /home/accusitive/.cargo/registry/src/github.com-1ecc6299db9ec823/futures-util-0.3.8/src/future/poll_fn.rs:54:9
+  61: <core::pin::Pin<P> as core::future::future::Future>::poll
+             at /home/accusitive/.rustup/toolchains/nightly-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/future/future.rs:119:9
+  62: <hyper::client::ResponseFuture as core::future::future::Future>::poll
+             at /home/accusitive/.cargo/registry/src/github.com-1ecc6299db9ec823/hyper-0.13.9/src/client/mod.rs:628:9
+  63: <reqwest::async_impl::client::PendingRequest as core::future::future::Future>::poll
+             at /home/accusitive/.cargo/registry/src/github.com-1ecc6299db9ec823/reqwest-0.10.9/src/async_impl/client.rs:1364:29
+  64: <reqwest::async_impl::client::Pending as core::future::future::Future>::poll
+             at /home/accusitive/.cargo/registry/src/github.com-1ecc6299db9ec823/reqwest-0.10.9/src/async_impl/client.rs:1343:51
+  65: reqwest::get::{{closure}}
+             at /home/accusitive/.cargo/registry/src/github.com-1ecc6299db9ec823/reqwest-0.10.9/src/lib.rs:257:5
+  66: <core::future::from_generator::GenFuture<T> as core::future::future::Future>::poll
+             at /home/accusitive/.rustup/toolchains/nightly-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/future/mod.rs:80:19
+  67: hnclient::test_a::{{closure}}
+             at ./src/main.rs:29:16
+  68: <core::future::from_generator::GenFuture<T> as core::future::future::Future>::poll
+             at /home/accusitive/.rustup/toolchains/nightly-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/future/mod.rs:80:19
+  69: <futures_util::future::future::map::Map<Fut,F> as core::future::future::Future>::poll
+             at /home/accusitive/.cargo/registry/src/github.com-1ecc6299db9ec823/futures-util-0.3.8/src/future/future/map.rs:49:37
+  70: <futures_util::future::future::Map<Fut,F> as core::future::future::Future>::poll
+             at /home/accusitive/.cargo/registry/src/github.com-1ecc6299db9ec823/futures-util-0.3.8/src/lib.rs:113:13
+  71: <core::pin::Pin<P> as core::future::future::Future>::poll
+             at /home/accusitive/.rustup/toolchains/nightly-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/future/future.rs:119:9
+  72: <futures_util::future::future::map::Map<Fut,F> as core::future::future::Future>::poll
+             at /home/accusitive/.cargo/registry/src/github.com-1ecc6299db9ec823/futures-util-0.3.8/src/future/future/map.rs:49:37
+  73: <futures_util::future::future::Map<Fut,F> as core::future::future::Future>::poll
+             at /home/accusitive/.cargo/registry/src/github.com-1ecc6299db9ec823/futures-util-0.3.8/src/lib.rs:113:13
+  74: <futures_util::future::future::flatten::Flatten<Fut,<Fut as core::future::future::Future>::Output> as core::future::future::Future>::poll
+             at /home/accusitive/.cargo/registry/src/github.com-1ecc6299db9ec823/futures-util-0.3.8/src/future/future/flatten.rs:45:36
+  75: <futures_util::future::future::Then<Fut1,Fut2,F> as core::future::future::Future>::poll
+             at /home/accusitive/.cargo/registry/src/github.com-1ecc6299db9ec823/futures-util-0.3.8/src/lib.rs:113:13
+  76: <futures_task::future_obj::LocalFutureObj<T> as core::future::future::Future>::poll
+             at /home/accusitive/.cargo/registry/src/github.com-1ecc6299db9ec823/futures-task-0.3.8/src/future_obj.rs:86:13
+  77: <futures_task::future_obj::FutureObj<T> as core::future::future::Future>::poll
+             at /home/accusitive/.cargo/registry/src/github.com-1ecc6299db9ec823/futures-task-0.3.8/src/future_obj.rs:133:9
+  78: futures_util::future::future::FutureExt::poll_unpin
+             at /home/accusitive/.cargo/registry/src/github.com-1ecc6299db9ec823/futures-util-0.3.8/src/future/future/mod.rs:561:9
+  79: futures_executor::thread_pool::Task::run
+             at /home/accusitive/.cargo/registry/src/github.com-1ecc6299db9ec823/futures-executor-0.3.8/src/thread_pool.rs:326:27
+  80: futures_executor::thread_pool::PoolState::work
+             at /home/accusitive/.cargo/registry/src/github.com-1ecc6299db9ec823/futures-executor-0.3.8/src/thread_pool.rs:160:39
+  81: futures_executor::thread_pool::ThreadPoolBuilder::create::{{closure}}
+             at /home/accusitive/.cargo/registry/src/github.com-1ecc6299db9ec823/futures-executor-0.3.8/src/thread_pool.rs:288:42

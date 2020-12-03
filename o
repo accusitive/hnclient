@@ -1,0 +1,1238 @@
+Creating new App;
+created app
+Refreshed.
+sending reqwest
+seny reqwest
+TExt {"by":"GordonS","descendants":160,"id":25279924,"kids":[25280888,25280167,25279967,25280183,25279942,25280346,25280086,25280742,25279941,25285140,25280114,25280275,25280052,25280253,25284736,25280927,25280656,25281887,25280926,25280789,25280875,25280169,25285428,25280530,25283347,25280205,25280328,25280338,25280087],"score":415,"time":1606935307,"title":"Kubernetes is deprecating Docker runtime support","type":"story","url":"https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG-1.20.md"}
+Refresh => got FoundNodes(
+    [
+        25280888,
+        25280167,
+        25279967,
+        25280183,
+        25279942,
+        25280346,
+        25280086,
+        25280742,
+        25279941,
+        25285140,
+        25280114,
+        25280275,
+        25280052,
+        25280253,
+        25284736,
+        25280927,
+        25280656,
+        25281887,
+        25280926,
+        25280789,
+        25280875,
+        25280169,
+        25285428,
+        25280530,
+        25283347,
+        25280205,
+        25280328,
+        25280338,
+        25280087,
+    ],
+)
+sending reqwest
+sending reqwest
+sending reqwest
+sending reqwest
+sending reqwest
+sending reqwest
+sending reqwest
+sending reqwest
+sending reqwest
+sending reqwest
+sending reqwest
+sending reqwest
+sending reqwest
+sending reqwest
+sending reqwest
+sending reqwest
+sending reqwest
+sending reqwest
+sending reqwest
+sending reqwest
+sending reqwest
+sending reqwest
+sending reqwest
+sending reqwest
+sending reqwest
+sending reqwest
+sending reqwest
+sending reqwest
+sending reqwest
+seny reqwest
+TExt {"by":"renewiltord","id":25280183,"kids":[25280807],"parent":25279924,"text":"Ah I see. You need a runtime in k8s that actually runs the containers that are in pods. So you can use Docker to run those containers, or containerd or whatever. Each of your k8s nodes has to have this program running to run the containers. So they don&#x27;t want to support that first one.<p>Not a big deal. It&#x27;s some backend stuff that&#x27;s not interesting to people who use managed k8s. Cool cool.","time":1606936401,"type":"comment"}
+mESSAGE :FoundNodes(
+    [
+        25280807,
+    ],
+)
+sending reqwest
+seny reqwest
+TExt {"by":"littlemerman","id":25280275,"parent":25279924,"text":"Might make sense to update the link to point to the language exactly:<p><a href=\"https:&#x2F;&#x2F;github.com&#x2F;kubernetes&#x2F;kubernetes&#x2F;blob&#x2F;master&#x2F;CHANGELOG&#x2F;CHANGELOG-1.20.md#deprecation\" rel=\"nofollow\">https:&#x2F;&#x2F;github.com&#x2F;kubernetes&#x2F;kubernetes&#x2F;blob&#x2F;master&#x2F;CHANGEL...</a><p>&quot;Docker support in the kubelet is now deprecated and will be removed in a future release. The kubelet uses a module called &quot;dockershim&quot; which implements CRI support for Docker and it has seen maintenance issues in the Kubernetes community. We encourage you to evaluate moving to a container runtime that is a full-fledged implementation of CRI (v1alpha1 or v1 compliant) as they become available. (#94624, @dims) [SIG Node]&quot;","time":1606936797,"type":"comment"}
+mESSAGE :FoundNodes(
+    [],
+)
+seny reqwest
+TExt {"by":"GordonS","id":25279942,"kids":[25280123,25285548,25280504],"parent":25279924,"text":"Read about this over on Twitter: <a href=\"https:&#x2F;&#x2F;twitter.com&#x2F;Dixie3Flatline&#x2F;status&#x2F;1334188913724850177?s=19\" rel=\"nofollow\">https:&#x2F;&#x2F;twitter.com&#x2F;Dixie3Flatline&#x2F;status&#x2F;133418891372485017...</a><p>The only &quot;official&quot; notice about it so far seems to be in the linked changelog.","time":1606935395,"type":"comment"}
+mESSAGE :FoundNodes(
+    [
+        25280123,
+        25285548,
+        25280504,
+    ],
+)
+sending reqwest
+sending reqwest
+sending reqwest
+seny reqwest
+TExt {"by":"tannhaeuser","id":25280530,"kids":[25283101],"parent":25279924,"text":"Just another case where an idea originally created for developer convenience turned into an enterprise thing and instrument for mass control. Reminds me of Java build tools having long forgotten that they&#x27;re there to make developer&#x27;s lives easier rather than appeal to enterprise control freak desires. Now have fun developing k8s-compatible containers to enslave us in &quot;the cloud&quot; with developer workflow an afterthought.","time":1606937850,"type":"comment"}
+mESSAGE :FoundNodes(
+    [
+        25283101,
+    ],
+)
+sending reqwest
+seny reqwest
+TExt {"by":"zapita","id":25283347,"parent":25279924,"text":"Here’s what this means for real-world kubernetes deployments:<p>- 99% of Kubernetes deployments use dockerd as a runtime<p>- 99% of dockerd deployments use containerd as a runtime<p>- containerd can be called directly by kubernetes via cri-containerd<p>- Therefore most Kubernetes deployments can, and should, be simplified by calling containerd directly.<p>- This deprecation notice will make this transition happen sooner.<p>This is the natural consequence of Docker itself splitting out its runtime into containerd.","time":1606952443,"type":"comment"}
+mESSAGE :FoundNodes(
+    [],
+)
+seny reqwest
+TExt {"by":"euank","id":25280888,"kids":[25282379,25285446,25281886],"parent":25279924,"text":"I think that the title of this is a bit misleading.<p>Kubernetes is removing the &quot;dockershim&quot;, which is special in-process support the kubelet has for docker.<p>However, the kubelet still has the CRI (container runtime interface) to support arbitrary runtimes. containerd is currently supported via the CRI, as is every runtime except docker. Docker is being moved from having special-case support to being the same in terms of support as other runtimes.<p>Does that mean using docker as your runtime is deprecated? I don&#x27;t think so. You just have to use docker via a CRI layer instead of via the in-process dockershim layer. Since there hasn&#x27;t been a need until now for an out-of-process cri-&gt;docker-api translation layer, there isn&#x27;t a well supported one I don&#x27;t think, but now that they&#x27;ve announced the intent to remove dockershim, I have no doubt that there will be a supported cri -&gt; docker layer before long.<p>Maybe the docker project will add  built-in support for exposing a CRI interface and save us an extra daemon (as containerd did).<p>In short, the title&#x27;s misleading from my understanding. The Kubelet is removing the special-cased dockershim, but k8s distributions that ship with docker as the runtime should be able to run a cri-&gt;docker layer to retain docker support.<p>For more info on this, see the discussion on this pr: <a href=\"https:&#x2F;&#x2F;github.com&#x2F;kubernetes&#x2F;kubernetes&#x2F;pull&#x2F;94624\" rel=\"nofollow\">https:&#x2F;&#x2F;github.com&#x2F;kubernetes&#x2F;kubernetes&#x2F;pull&#x2F;94624</a>","time":1606939603,"type":"comment"}
+mESSAGE :FoundNodes(
+    [
+        25282379,
+        25285446,
+        25281886,
+    ],
+)
+seny reqwest
+TExt {"by":"crizzlenizzle","id":25280742,"parent":25279924,"text":"About time.<p>Coincidentally, today I watched three presentations about burning Kubernetes clusters and all of them had Docker daemon issues in the mix. I’ve been using Docker for over five years myself and I’ve been using Kubernetes for almost two years now. The most pain I encountered was with Docker or its own ecosystem.<p>In the last two years it always had some weird racy situations where it damaged its IPAM or simply couldn’t start containers after a restart anymore. Also its IPv6 support is just a joke.<p>Sorry, I had to rant and I hope that this announcement will fuel the development of Docker alternatives even more.","time":1606938840,"type":"comment"}
+mESSAGE :FoundNodes(
+    [],
+)
+seny reqwest
+TExt {"by":"brundolf","id":25280346,"kids":[25280482,25281720,25281118,25280783,25280738],"parent":25279924,"text":"It&#x27;s funny, and telling, how many commenters here are using K8s without really knowing how it works (and what this change therefore means). I&#x27;m in that group myself.<p>Is this a testament to, or an indictment of, how abstracted our systems have become?","time":1606937138,"type":"comment"}
+mESSAGE :FoundNodes(
+    [
+        25280482,
+        25281720,
+        25281118,
+        25280783,
+        25280738,
+    ],
+)
+seny reqwest
+seny reqwest
+TExt {"by":"npiit","id":25280927,"parent":25279924,"text":"Did anybody make a test to compare CRI-O vs Docker especially when it comes to overall node memory usage for let&#x27;s say 30-50 containers per node? I guess CRI-O would save a lot of memory but I don&#x27;t have numbers.","time":1606939833,"type":"comment"}
+mESSAGE :FoundNodes(
+    [],
+)
+TExt {"by":"djsumdog","id":25280052,"kids":[25280141,25280324,25280505,25280287,25280137,25280736,25280403,25280089],"parent":25279924,"text":"containerd will still run images build by Docker. Google can talk about how Docker is missing CRI support, but I feel like this is just Google wanting to cut out Docker entirely.<p>I seems like containerd is maintained by The Linux Foundation, a group of people who mostly don&#x27;t even run Linux (most of their releases and media material is made on Macs)<p>I dunno. I don&#x27;t like the direction things are going in the open source world right now.","time":1606935828,"type":"comment"}
+mESSAGE :FoundNodes(
+    [
+        25280141,
+        25280324,
+        25280505,
+        25280287,
+        25280137,
+        25280736,
+        25280403,
+        25280089,
+    ],
+)
+seny reqwest
+TExt {"by":"bobbyi_settv","id":25280253,"kids":[25280304,25286702],"parent":25279924,"text":"&gt; We encourage you to evaluate moving to a container runtime that is a full-fledged implementation of CRI (v1alpha1 or v1 compliant) as they become available.<p>So Docker is deprecated, but no replacement is yet available?","time":1606936669,"type":"comment"}
+mESSAGE :FoundNodes(
+    [
+        25280304,
+        25286702,
+    ],
+)
+seny reqwest
+seny reqwest
+TExt {"by":"sbisson","id":25280656,"parent":25279924,"text":"It gets less confusing when you realise that the original specification for containerd came from Docker (the company) and the current implementation of docker (the application) use containerd as their runtime.<p>By using containerd (or podman) in K8s, you&#x27;re getting rid of a lot of unnecessary overhead and so should get more containers per host...","time":1606938442,"type":"comment"}
+seny reqwest
+mESSAGE :FoundNodes(
+    [],
+)
+TExt {"by":"blinkingled","id":25285140,"parent":25279924,"text":"This link has a more thorough detail on what is actually happening and when - <a href=\"https:&#x2F;&#x2F;github.com&#x2F;kubernetes&#x2F;enhancements&#x2F;tree&#x2F;master&#x2F;keps&#x2F;sig-node&#x2F;1985-remove-dockershim\" rel=\"nofollow\">https:&#x2F;&#x2F;github.com&#x2F;kubernetes&#x2F;enhancements&#x2F;tree&#x2F;master&#x2F;keps&#x2F;...</a><p>Bottom line I think is that using docker as a container runtime with K8S is going to be harder unless cri-dockerd becomes production grade but even then, from the Cons section it looks like it will not be a good option -<p>cri-dockerd will vendor kubernetes&#x2F;kubernetes, that may be tough.\ncri-dockerd as an independent software running on node should be allocated enough resource to guarantee its availability.","time":1606967326,"type":"comment"}
+mESSAGE :FoundNodes(
+    [],
+)
+seny reqwest
+TExt {"by":"pietromenna","id":25280926,"parent":25279924,"text":"I found the title just a reminder to invest learning concepts and topics that can last a life time. Tools come and go, and it is healthy to change from time to time.<p>Containers as a concept is an important learning, but the implementation for today may not be the same as the one in 5 years from now.","time":1606939829,"type":"comment"}
+mESSAGE :FoundNodes(
+    [],
+)
+TExt {"by":"Gravityloss","id":25279941,"parent":25279924,"text":"&gt; Docker support in the kubelet is now deprecated and will be removed in a future release. The kubelet uses a module called &quot;dockershim&quot; which implements CRI support for Docker and it has seen maintenance issues in the Kubernetes community. We encourage you to evaluate moving to a container runtime that is a full-fledged implementation of CRI (v1alpha1 or v1 compliant) as they become available. (#94624, @dims) [SIG Node]","time":1606935390,"type":"comment"}
+mESSAGE :FoundNodes(
+    [],
+)
+seny reqwest
+TExt {"deleted":true,"id":25280087,"parent":25279924,"time":1606935964,"type":"comment"}
+mESSAGE :FoundNodes(
+    [],
+)
+sending reqwest
+sending reqwest
+sending reqwest
+sending reqwest
+sending reqwest
+sending reqwest
+sending reqwest
+sending reqwest
+sending reqwest
+sending reqwest
+sending reqwest
+sending reqwest
+sending reqwest
+sending reqwest
+sending reqwest
+sending reqwest
+sending reqwest
+sending reqwest
+seny reqwest
+TExt {"by":"polskibus","id":25280875,"kids":[25280943],"parent":25279924,"text":"What does that mean for people working with Dockerfiles for local&#x2F;small scale development that would like to be able to use kubernetes at some point? Will they not be able to use their Dockerfiles at all?","time":1606939538,"type":"comment"}
+mESSAGE :FoundNodes(
+    [
+        25280943,
+    ],
+)
+sending reqwest
+seny reqwest
+TExt {"by":"dgrin91","id":25280114,"kids":[25280125,25280362],"parent":25279924,"text":"I&#x27;m kind of confused by this. It sounds like its removing just some parts of docker (like the UI stuff), but not others? Can I still run my docker-built images on K8?","time":1606936056,"type":"comment"}
+mESSAGE :FoundNodes(
+    [
+        25280125,
+        25280362,
+    ],
+)
+seny reqwest
+TExt {"by":"darknessmonk","id":25280205,"kids":[25280305,25280265],"parent":25279924,"text":"So... What&#x27;s the better runtime alternatives?","time":1606936485,"type":"comment"}
+mESSAGE :FoundNodes(
+    [
+        25280305,
+        25280265,
+    ],
+)
+seny reqwest
+seny reqwest
+seny reqwest
+TExt {"by":"fomine3","id":25285428,"parent":25279924,"text":"Say it many times: we miss Docker Swarm","time":1606970166,"type":"comment"}
+TExt {"by":"st1x7","id":25280167,"kids":[25280307,25280252,25280270,25280437,25280391,25280247,25280263,25280246,25280237],"parent":25279924,"text":"(Super naive layman question, I don&#x27;t work in this space.)<p>What does this mean? I thought that Kubernetes manages Docker containers which makes the title kind of confusing.","time":1606936318,"type":"comment"}
+TExt {"by":"qz2","id":25280086,"kids":[25280243,25280418,25280234],"parent":25279924,"text":"Can someone explain how logging is supposed to work after this change? I’m complete bloody lost.<p>Actually I’m nearly always lost with kubernetes. It’s either broken or changing.","time":1606935958,"type":"comment"}
+mESSAGE :FoundNodes(
+    [],
+)
+mESSAGE :FoundNodes(
+    [
+        25280243,
+        25280418,
+        25280234,
+    ],
+)
+mESSAGE :FoundNodes(
+    [
+        25280307,
+        25280252,
+        25280270,
+        25280437,
+        25280391,
+        25280247,
+        25280263,
+        25280246,
+        25280237,
+    ],
+)
+seny reqwest
+TExt {"deleted":true,"id":25280338,"parent":25279924,"time":1606937097,"type":"comment"}
+mESSAGE :FoundNodes(
+    [],
+)
+seny reqwest
+TExt {"by":"mikesabbagh","id":25281887,"parent":25279924,"text":"Docker has networking and other layers too. Docker runs as a daemon too, so it is not very secure.\nGKE uses containerd (u can use others)\nWhat is nice about containerd is that it only runs the container and you can write plugins to it. So much lighter than docker.","time":1606944534,"type":"comment"}
+mESSAGE :FoundNodes(
+    [],
+)
+seny reqwest
+TExt {"by":"flowerlad","id":25280789,"parent":25279924,"text":"This is misleading. If you&#x27;re using Docker to build images and using Kubernetes to manage containers nothing changes. The deprecation mentioned is internal to Kubernetes and does not impact people who use Kubernetes to manage containers built using Docker.","time":1606939086,"type":"comment"}
+mESSAGE :FoundNodes(
+    [],
+)
+seny reqwest
+TExt {"by":"tannhaeuser","id":25280169,"kids":[25280201,25280223,25280462,25280435],"parent":25279924,"text":"As much as I love Docker as an excellent freelance developer tool for juggling customer environments, I just never understood the urge to run entire enterprises on containers. It certainly doesn&#x27;t make things easier, faster, more secure, or cheaper; all it ever did was isolating shared library dependencies (a self-inflicted problem created due to overuse of shared libraries in F&#x2F;OSS, since static linking has done just the same thing since the dawn of times; of course, in neither case do you get automatic security or stability updates which was the entire point of shared libs). Now they&#x27;re removing Docker altogether from the k8s stack? So much for Docker&#x27;s perceived &quot;isolation&quot; I guess.","time":1606936319,"type":"comment"}
+mESSAGE :FoundNodes(
+    [
+        25280201,
+        25280223,
+        25280462,
+        25280435,
+    ],
+)
+sending reqwest
+sending reqwest
+sending reqwest
+sending reqwest
+sending reqwest
+sending reqwest
+sending reqwest
+sending reqwest
+sending reqwest
+sending reqwest
+sending reqwest
+sending reqwest
+sending reqwest
+sending reqwest
+sending reqwest
+sending reqwest
+sending reqwest
+sending reqwest
+sending reqwest
+sending reqwest
+seny reqwest
+TExt {"by":"dataplayer","id":25284736,"parent":25279924,"text":"You can spin up test Kubernetes clusters with different underlying container runtimes using Minikube. If you want to play around with a cluster running containerd instead of the docker container runtime use:<p>minikube start --container-runtime=containerd<p>Use this to convince yourself that all your current docker images will still deploy and work as usual.","time":1606964006,"type":"comment"}
+mESSAGE :FoundNodes(
+    [],
+)
+seny reqwest
+TExt {"by":"GordonS","id":25279967,"kids":[25280245,25281043],"parent":25279924,"text":"@mods, would appreciate if someone could change the title to &quot;Kubernetes is deprecating Docker runtime support&quot; (I accidentally missed the word &quot;runtime&quot; when submitting).","time":1606935508,"type":"comment"}
+mESSAGE :FoundNodes(
+    [
+        25280245,
+        25281043,
+    ],
+)
+seny reqwest
+TExt {"by":"justicezyx","id":25280328,"parent":25279924,"text":"This is inevitable one way or another. Docker lost any leverage after 2015, when they still had some chance of making sure container as they invented can still be monetized in the same way of VMware.","time":1606937048,"type":"comment"}
+mESSAGE :FoundNodes(
+    [],
+)
+sending reqwest
+sending reqwest
+seny reqwest
+TExt {"by":"shuuji3","id":25285548,"parent":25279942,"text":"There are several official responses now to help us understand this deprecation.<p>K8sContributors on Twitter: &quot;#Kubernetes 1.20 introduces an important change to the kubelet - the deprecation of #Docker as a container runtime option. What does this mean and why is it happening? You can learn more in our blog post! <a href=\"https:&#x2F;&#x2F;t.co&#x2F;lzPPzwXUNM\" rel=\"nofollow\">https:&#x2F;&#x2F;t.co&#x2F;lzPPzwXUNM</a>&quot; &#x2F; Twitter - <a href=\"https:&#x2F;&#x2F;twitter.com&#x2F;K8sContributors&#x2F;status&#x2F;1334301732830990336\" rel=\"nofollow\">https:&#x2F;&#x2F;twitter.com&#x2F;K8sContributors&#x2F;status&#x2F;13343017328309903...</a><p>Don&#x27;t Panic: Kubernetes and Docker | Kubernetes - <a href=\"https:&#x2F;&#x2F;kubernetes.io&#x2F;blog&#x2F;2020&#x2F;12&#x2F;02&#x2F;dont-panic-kubernetes-and-docker&#x2F;\" rel=\"nofollow\">https:&#x2F;&#x2F;kubernetes.io&#x2F;blog&#x2F;2020&#x2F;12&#x2F;02&#x2F;dont-panic-kubernetes-...</a><p>Dockershim Deprecation FAQ | Kubernetes - <a href=\"https:&#x2F;&#x2F;kubernetes.io&#x2F;blog&#x2F;2020&#x2F;12&#x2F;02&#x2F;dockershim-faq&#x2F;\" rel=\"nofollow\">https:&#x2F;&#x2F;kubernetes.io&#x2F;blog&#x2F;2020&#x2F;12&#x2F;02&#x2F;dockershim-faq&#x2F;</a>","time":1606971391,"type":"comment"}
+mESSAGE :FoundNodes(
+    [],
+)
+seny reqwest
+TExt {"by":"boberoni","id":25280123,"kids":[25280599,25280621],"parent":25279942,"text":"This was very useful. Thanks for sharing.<p>It seems that Docker images will still run fine on k8s. The main change is that they&#x27;re moving away from the &quot;Docker runtime&quot;, which is supposed to be installed on each of the nodes in your cluster.<p>More details about k8s container runtimes here: <a href=\"https:&#x2F;&#x2F;kubernetes.io&#x2F;docs&#x2F;setup&#x2F;production-environment&#x2F;container-runtimes&#x2F;\" rel=\"nofollow\">https:&#x2F;&#x2F;kubernetes.io&#x2F;docs&#x2F;setup&#x2F;production-environment&#x2F;cont...</a>","time":1606936092,"type":"comment"}
+mESSAGE :FoundNodes(
+    [
+        25280599,
+        25280621,
+    ],
+)
+seny reqwest
+TExt {"by":"mplewis","id":25283101,"parent":25280530,"text":"The 12-factor app has been around since at least 2014. Why do you think &quot;containers&quot; are &quot;enslaving&quot; you?","time":1606951015,"type":"comment"}
+mESSAGE :FoundNodes(
+    [],
+)
+sending reqwest
+sending reqwest
+seny reqwest
+TExt {"by":"freedomben","id":25280807,"parent":25280183,"text":"Yep, NBD.  OpenShift removed Docker a while ago and replaced it with CRI-O.  99% of people never noticed, and the ones that did just like to know how things work on the inside.","time":1606939145,"type":"comment"}
+mESSAGE :FoundNodes(
+    [],
+)
+seny reqwest
+TExt {"by":"fhrow4484","id":25280504,"parent":25279942,"text":"The twitter thread has way more details about the change, which is why I submitted it here: <a href=\"https:&#x2F;&#x2F;news.ycombinator.com&#x2F;item?id=25279424\" rel=\"nofollow\">https:&#x2F;&#x2F;news.ycombinator.com&#x2F;item?id=25279424</a><p><a href=\"https:&#x2F;&#x2F;twitter.com&#x2F;IanColdwater&#x2F;status&#x2F;1334149283449352200\" rel=\"nofollow\">https:&#x2F;&#x2F;twitter.com&#x2F;IanColdwater&#x2F;status&#x2F;1334149283449352200</a> also has some details","time":1606937775,"type":"comment"}
+mESSAGE :FoundNodes(
+    [],
+)
+seny reqwest
+seny reqwest
+TExt {"by":"amackera","id":25281118,"parent":25280346,"text":"Not having to care about implementation details seems like a positive thing to me. There&#x27;s a reason RTFM is a meme and &quot;read the fucking source code&quot; is not.<p>Anybody claiming they need to know <i>everything</i> about their dependencies is being unrealistic.","time":1606940874,"type":"comment"}
+mESSAGE :FoundNodes(
+    [],
+)
+TExt {"by":"dragonwriter","id":25280287,"kids":[25280383,25280749],"parent":25280052,"text":"&gt; I seems like containerd is maintained by The Linux Foundation, a group of people who mostly don&#x27;t even run Linux (most of their releases and media material is made on Macs)<p>Using Macs for content creation isn&#x27;t evidence that the Foundation members don&#x27;t use also Linux, whether for software development, backend servers, etc.","time":1606936843,"type":"comment"}
+mESSAGE :FoundNodes(
+    [
+        25280383,
+        25280749,
+    ],
+)
+sending reqwest
+sending reqwest
+seny reqwest
+TExt {"by":"chucky_z","id":25280137,"kids":[25280522],"parent":25280052,"text":"i 100% agree with you.  open source feels really, really bad especially in the last year.<p>to others reading this -- simplified, but, docker uses containerd to build&#x2F;run images.  all docker images are valid containerd images.  you can run images through containerd straight off the docker hub.","time":1606936158,"type":"comment"}
+mESSAGE :FoundNodes(
+    [
+        25280522,
+    ],
+)
+seny reqwest
+TExt {"by":"icco","id":25282379,"kids":[25283542],"parent":25280888,"text":"Also, people probably don&#x27;t understand the difference between the container runtime and container build environment. You can build your container with Docker still and it can run in a different environment.","time":1606947001,"type":"comment"}
+mESSAGE :FoundNodes(
+    [
+        25283542,
+    ],
+)
+seny reqwest
+TExt {"by":"enos_feedler","id":25280324,"kids":[25280465],"parent":25280052,"text":"I would say that Google never wanted to be _in_ with Docker in the first place. Google had been doing things the docker way before Docker existed (Borg). Docker sort of caught the developer ecosystem by surprise, but proved the viability of containers in general. From this point forward it was clear Google would build their cloud future on “containers”, not on Docker. If you can find archived streams of the GCP conference that took place shortly after Dockers rise in popularity, they say the word container all day long, but never mention the word Docker once. I was there and remember counting","time":1606937020,"type":"comment"}
+mESSAGE :FoundNodes(
+    [
+        25280465,
+    ],
+)
+sending reqwest
+sending reqwest
+sending reqwest
+seny reqwest
+TExt {"by":"landerwust","id":25280141,"kids":[25280761,25280469,25280506],"parent":25280052,"text":"This was always a land-grab by folk who wanted Docker&#x27;s &quot;&quot;&quot;community&quot;&quot;&quot; (read: channel) but not Docker&#x27;s commercial interests. Any time you see a much larger commercial entity insist you write a spec for your technology, especially one with much larger pockets, the writing is always on the cards.<p>The bit that absolutely fucking sickens me is how these transactions are often dressed up in language with free software intonations like &quot;community&quot;, &quot;collaboration&quot; etc. Institutionalized doublethink is so thick in the modern free software world that few people even recognize the difference any more. As an aside, can anyone remember not so long ago when Google wouldn&#x27;t shut up about &quot;the open web&quot;? Probably stopped saying that not long after Chrome ate the entire ecosystem and began dictating terms.<p>The one mea culpa for Docker is that the sales folk behind Kubernetes haven&#x27;t the slightest understanding of the usability story that made Docker such a raging success to begin with. The sheer size of the organizations they represent may not even allow them to recreate that experience if indeed they recognized the genius of it. It remains to be seen whether they&#x27;ll manage that before another orchestrator comes along and changes the wind once again. The trophy could still be stolen, there&#x27;s definitely room for it.","time":1606936181,"type":"comment"}
+seny reqwest
+mESSAGE :FoundNodes(
+    [
+        25280761,
+        25280469,
+        25280506,
+    ],
+)
+TExt {"by":"jsmith45","id":25280403,"parent":25280052,"text":"Docker Inc really do not want infrastructure projects wrapper docker itself. It causes all sorts of headaches for them. They encourage using containerd for infrastructure projects (which is basically the core of original docker extracted out as a sperate project maintained by a large community). Docker is basically an opiononated wrapper around containerd, and they intend to move even more in that direction in the future.<p>TLDR: Docker Inc almost certainly is happy to see this change happen.","time":1606937389,"type":"comment"}
+mESSAGE :FoundNodes(
+    [],
+)
+seny reqwest
+TExt {"by":"symlinkk","id":25280738,"kids":[25281454],"parent":25280346,"text":"The purpose of every piece of software is to be usable without knowing how it works.","time":1606938834,"type":"comment"}
+mESSAGE :FoundNodes(
+    [
+        25281454,
+    ],
+)
+seny reqwest
+TExt {"by":"cactus2093","id":25280505,"parent":25280052,"text":"&gt; I dunno. I don&#x27;t like the direction things are going in the open source world right now.<p>I commented on a child comment as well, but I don&#x27;t understand this idea. The news is that a piece of commercially built software is being deprecated by a major project in favor of one built on an open standard, and you&#x27;re interpreting this as a blow to open source?","time":1606937779,"type":"comment"}
+mESSAGE :FoundNodes(
+    [],
+)
+sending reqwest
+sending reqwest
+sending reqwest
+sending reqwest
+seny reqwest
+TExt {"by":"kgoutham93","id":25285446,"kids":[25286500],"parent":25280888,"text":"Is containerd CRI compliant? Kubelet still interacts with cri-containerd which inturn calls containerd. Isn&#x27;t cri-containerd the dockershim of containerd?<p>Maybe I&#x27;m mixing up things, pls correct me wherever needed.","time":1606970367,"type":"comment"}
+mESSAGE :FoundNodes(
+    [
+        25286500,
+    ],
+)
+seny reqwest
+TExt {"by":"jrochkind1","id":25280482,"parent":25280346,"text":"If it <i>works</i> it&#x27;s fine.<p>I took an Operating Systems class decades ago in school in which I wrote a toy OS, but at this point I couldn&#x27;t tell you much about how operating systems really work, but I deploy software to them everyday. That is fine, it is the nature of computers, they are basically abstraction machines. And OS&#x27;s are pretty mature and stable, I don&#x27;t really ever need to debug the OS itself in order to deploy software to one, for the kind of software I write. (Others might need to know more).<p>But personally I still haven&#x27;t figured out how to use K8, heh.","time":1606937687,"type":"comment"}
+mESSAGE :FoundNodes(
+    [],
+)
+seny reqwest
+TExt {"by":"cpuguy83","id":25280736,"parent":25280052,"text":"comtainerd is hosted by the Linux Foundation (more specifically CNCF). It is maintained by people from all over, including but not limited to the major US tech companies (Apple, Google, Microsoft, Amazon).<p>containerd was also created by Docker Inc and donated to the LF.","time":1606938820,"type":"comment"}
+mESSAGE :FoundNodes(
+    [],
+)
+seny reqwest
+TExt {"by":"pm90","id":25280783,"parent":25280346,"text":"Would you say you know the intricacies of how VMs work before using them to deploy apps?<p>There is nothing “un abstract” about running applications on VMs or machines. We’re just evolving the abstractions that we work with. Before it was VMs, then containers and now containers + orchestrators. In the future it will be some other abstraction.<p>Every step of the way, we’ve made this transition for compelling reasons. And it will happen again.","time":1606939042,"type":"comment"}
+mESSAGE :FoundNodes(
+    [],
+)
+sending reqwest
+seny reqwest
+seny reqwest
+TExt {"by":"dodobirdlord","id":25286702,"parent":25280253,"text":"The recommended runtime to use is containerd, which Docker itself is using under the hood. This is just about removing Docker as a piece of middleware.","time":1606982874,"type":"comment"}
+seny reqwest
+mESSAGE :FoundNodes(
+    [],
+)
+TExt {"by":"astuyvenberg","id":25280252,"kids":[25281759],"parent":25280167,"text":"Simply put, Docker includes a bunch of UX components that Kubernetes doesn&#x27;t need. Kubernetes is currently relying on a shim to interact with the parts that it _does_ need. This change is to simplify the abstraction. You can still use docker to build images deployed via Kubernetes.<p>Here&#x27;s an explanation I found helpful:<p><a href=\"https:&#x2F;&#x2F;twitter.com&#x2F;Dixie3Flatline&#x2F;status&#x2F;1334188913724850177\" rel=\"nofollow\">https:&#x2F;&#x2F;twitter.com&#x2F;Dixie3Flatline&#x2F;status&#x2F;133418891372485017...</a>","time":1606936664,"type":"comment"}
+TExt {"by":"quickthrower2","id":25281720,"parent":25280346,"text":"I use my car without knowing how it works. The weird thing about programming is that as a job, if I had a company car they&#x27;d be happy for me to call the mechanic to fix it, but if kubernetes ain&#x27;t working then that&#x27;s another job for the multihatted programmer. That sort of means, from a selfish point of view it&#x27;s better to pick one of the locked-in cloud technologies that you can&#x27;t fix (AWS or Azure has to!). But I suspect many do the opposite (I want k8s on my cv!)","time":1606943560,"type":"comment"}
+mESSAGE :FoundNodes(
+    [
+        25281759,
+    ],
+)
+seny reqwest
+mESSAGE :FoundNodes(
+    [],
+)
+seny reqwest
+seny reqwest
+TExt {"by":"Havoc","id":25281886,"kids":[25282797,25283006],"parent":25280888,"text":"Thanks for explaining.<p>I suspect this will nuke a huge amount of tutorials out there though &amp; frustrate newbies.","time":1606944519,"type":"comment"}
+TExt {"by":"bitdivision","id":25280247,"parent":25280167,"text":"It will still run docker containers, they&#x27;re just deprecating the Docker runtime, which is more of an implementation detail","time":1606936639,"type":"comment"}
+seny reqwest
+mESSAGE :FoundNodes(
+    [],
+)
+mESSAGE :FoundNodes(
+    [
+        25282797,
+        25283006,
+    ],
+)
+TExt {"by":"q3k","id":25280265,"parent":25280205,"text":"The &#x27;standard&#x27; one is containerd.","time":1606936740,"type":"comment"}
+mESSAGE :FoundNodes(
+    [],
+)
+TExt {"by":"scrappyjoe","id":25280246,"parent":25280167,"text":"Kubernetes orchestrates containers, but Docker is just one way of running containers. It wraps all the underlying Linux  into a nice set of of easy to use commands. Kubernetes is deprecating interacting with the underlying Linux via the Docker wrapper.","time":1606936635,"type":"comment"}
+mESSAGE :FoundNodes(
+    [],
+)
+seny reqwest
+TExt {"by":"geerlingguy","id":25280304,"parent":25280253,"text":"I believe at least containerd and CRI-0 are actively available and in use quite a bit. (There are some others I&#x27;ve seen, too.)<p>It&#x27;s just saying if you use something else, it must follow at least the v1alpha1 or v1 CRI runtime standard.","time":1606936944,"type":"comment"}
+mESSAGE :FoundNodes(
+    [],
+)
+seny reqwest
+seny reqwest
+TExt {"by":"freeone3000","id":25280943,"parent":25280875,"text":"No change for this workflow. Developers can still use docker to build OCI images as they always have, and containerd can run them as previously.","time":1606939934,"type":"comment"}
+TExt {"by":"mfer","id":25280437,"parent":25280167,"text":"In basic terms... this is a technical detail that isn&#x27;t going to impact Kubernetes users (a mass majority of them). Those who are concerned with running their workloads in Kubernetes, anyway.<p>The part of Kubernetes that runs containers has had a shim for docker along with an interface for runtimes to use. It&#x27;s called the Container Runtime Interface (CRI). The docker shim that worked alongside CRI is being deprecated and now all runtimes (including Docker) will need to use the CRI interface.<p>These days there are numerous container runtimes one can use. containerd and cri-o are two of them. Container images built with Docker can be run with either of these without anyone noticing.","time":1606937483,"type":"comment"}
+mESSAGE :FoundNodes(
+    [],
+)
+mESSAGE :FoundNodes(
+    [],
+)
+seny reqwest
+TExt {"by":"cogman10","id":25280089,"kids":[25280134],"parent":25280052,"text":"Probably to get around the recent docker registry throttling would be my guess.  They are likely looking at building out their own container ecosystem.","time":1606935973,"type":"comment"}
+mESSAGE :FoundNodes(
+    [
+        25280134,
+    ],
+)
+seny reqwest
+TExt {"by":"jcastro","id":25280263,"parent":25280167,"text":"Kubernetes will just use containerd directly, most end users will just continue to use docker on their laptop or whatever. Or you can use something else like podman, it&#x27;s all OCI: <a href=\"https:&#x2F;&#x2F;opencontainers.org&#x2F;\" rel=\"nofollow\">https:&#x2F;&#x2F;opencontainers.org&#x2F;</a>","time":1606936734,"type":"comment"}
+mESSAGE :FoundNodes(
+    [],
+)
+seny reqwest
+TExt {"by":"johnaoss","id":25280305,"parent":25280205,"text":"I&#x27;ve heard good things about <a href=\"https:&#x2F;&#x2F;containerd.io\" rel=\"nofollow\">https:&#x2F;&#x2F;containerd.io</a><p>Kubernetes documentation has a setup guide (for containerd, as well as CRI-O here: <a href=\"https:&#x2F;&#x2F;kubernetes.io&#x2F;docs&#x2F;setup&#x2F;production-environment&#x2F;container-runtimes&#x2F;#containerd\" rel=\"nofollow\">https:&#x2F;&#x2F;kubernetes.io&#x2F;docs&#x2F;setup&#x2F;production-environment&#x2F;cont...</a>","time":1606936952,"type":"comment"}
+mESSAGE :FoundNodes(
+    [],
+)
+seny reqwest
+TExt {"by":"deadmik3","id":25280362,"parent":25280114,"text":"yes it&#x27;s just the underlying container runtime. so this is really only applicable to sysadmins managing their own k8s installation","time":1606937225,"type":"comment"}
+mESSAGE :FoundNodes(
+    [],
+)
+seny reqwest
+TExt {"by":"jsmith45","id":25280307,"kids":[25280653,25280543,25283432,25280426],"parent":25280167,"text":"&quot;docker containers&quot; are more accurately called OCI containers, and have been standardized so that various container runtimes can use exactly the same container images.<p>Kubernetes can use docker runtime (dockerd) to run OCI containers, but Docker Inc strongly discourages the docker runtime being used directly for infrastructure. Docker runtime imposes a lot of opinionated defaults on containers that are often unwanted by infrastructure projects. (For example docker will automatically edit the &#x2F;etc&#x2F;hosts file in containers, in a way that makes little sense for Kubernetes, so Kubernetes has to implement a silly work around to avoid this.)<p>Instead Docker Inc recommends using containerd as the runtime. containerd implements downloading, unpacking, creating CRI manifests, and running the resulting containers all without implementing docker&#x27;s opinionated defaults on top. Docker itself uses containerd to actually run the containers, and plans to remove it downloading code in favor of using the one from containerd too.<p>The only advantage to using docker proper for infrastructure projects is that you can use the docker cli for introspection and debugging. Kubernetes has created its own very similar cli that works with all supported backend runtimes, and also can include relevant Kubernetes specific information in outputs.","time":1606936956,"type":"comment"}
+mESSAGE :FoundNodes(
+    [
+        25280653,
+        25280543,
+        25283432,
+        25280426,
+    ],
+)
+seny reqwest
+seny reqwest
+TExt {"by":"joeskyyy","id":25280237,"parent":25280167,"text":"Kubernetes manages many types of containers, Docker containers just happen to be the most popular (or at least I&#x27;d venture to guess). But Kubernetes for a while has supported a few container runtimes (: Here&#x27;s some k8s docs on a few: <a href=\"https:&#x2F;&#x2F;kubernetes.io&#x2F;docs&#x2F;setup&#x2F;production-environment&#x2F;container-runtimes&#x2F;\" rel=\"nofollow\">https:&#x2F;&#x2F;kubernetes.io&#x2F;docs&#x2F;setup&#x2F;production-environment&#x2F;cont...</a>","time":1606936610,"type":"comment"}
+TExt {"by":"jacques_chester","id":25280243,"kids":[25280345,25280838,25285119,25280892],"parent":25280086,"text":"Loosely, my understanding Kubernetes works like this:<p>You have a Pod definition, which is basically a gang of containers. In that Pod definition you have included one or more container image references.<p>You send the Pod definition to the API Server.<p>The API Server informs listeners for Pod updates that there is a new Pod definition. One of these listeners is the scheduler, which decides which Node should get the Pod. It creates an update for the Pod&#x27;s &quot;status&quot;, essentially annotating it with the name of the Node that should run the Pod.<p>Each Node has a &quot;kubelet&quot;. These too subscribe to Pod definitions. When a change shows up saying &quot;Pod &#x27;foo&#x27; should run on Node 27&quot;, the kubelet in Node 27 perks up its ears.<p>The kubelet converts the Pod definition into descriptions of containers -- image reference, RAM limits, which disks to attach etc. It then turns to its container runtime through the &quot;Container Runtime Interface&quot; (CRI). In the early days this was a Docker daemon.<p>The container runtime now acts on the descriptions it got. Most notably, it will check to see if it has an image in its local cache; if it doesn&#x27;t then it will try to pull that image from a registry.<p>Now: The <i>CRI is distinct from the Docker daemon API</i>. The CRI is abstracted because since the Docker daemon days, other alternatives have emerged (and some have withered), such as rkt, podman and containerd.<p>This update says &quot;we are not going to maintain the Docker daemon option for CRI&quot;. You can use containerd. From a Kubernetes end-user perspective, nothing should change. From an operator perspective, all that happens is that you have a smaller footprint with less attack surface.","time":1606936618,"type":"comment"}
+mESSAGE :FoundNodes(
+    [],
+)
+seny reqwest
+mESSAGE :FoundNodes(
+    [
+        25280345,
+        25280838,
+        25285119,
+        25280892,
+    ],
+)
+TExt {"by":"yahyaheee","id":25280201,"parent":25280169,"text":"It makes things reproducible, and k8s is still containers just not docker","time":1606936474,"type":"comment"}
+mESSAGE :FoundNodes(
+    [],
+)
+seny reqwest
+TExt {"by":"throwaway201103","id":25280418,"kids":[25280867,25281637,25280918],"parent":25280086,"text":"&gt; I’m nearly always lost with kubernetes. It’s either broken or changing.<p>Glad I&#x27;m not the only one. I&#x27;m sure I&#x27;m not the smartest engineer&#x2F;sysadmin in the world, but I&#x27;m also not the dumbest and I have never gotten an on-premises Kubernetes installation to work.<p>The way I manage containers is lxc and shell scripts. I understand it, and it works.","time":1606937416,"type":"comment"}
+mESSAGE :FoundNodes(
+    [
+        25280867,
+        25281637,
+        25280918,
+    ],
+)
+sending reqwest
+seny reqwest
+sending reqwest
+sending reqwest
+TExt {"by":"jacques_chester","id":25280125,"parent":25280114,"text":"&gt; <i>Can I still run my docker-built images on K8?</i><p>Yes.","time":1606936099,"type":"comment"}
+mESSAGE :FoundNodes(
+    [],
+)
+sending reqwest
+sending reqwest
+sending reqwest
+seny reqwest
+TExt {"by":"lucideer","id":25280391,"kids":[25280490],"parent":25280167,"text":"Sibling comments cover the details but to put it simply: there are two definitions of the work &quot;Docker&quot;:<p>1. [common, informal] &quot;An OCI container&quot;.<p>2. [pedantic, strictly accurate] &quot;A set of tools for building &amp; interacting with OCI containers&quot;.<p>This article is talking about the latter definition.","time":1606937335,"type":"comment"}
+mESSAGE :FoundNodes(
+    [
+        25280490,
+    ],
+)
+sending reqwest
+sending reqwest
+sending reqwest
+sending reqwest
+sending reqwest
+sending reqwest
+sending reqwest
+sending reqwest
+sending reqwest
+seny reqwest
+TExt {"by":"disgruntledphd2","id":25280234,"kids":[25281468],"parent":25280086,"text":"Welcome to modern software development, apparently.","time":1606936596,"type":"comment"}
+mESSAGE :FoundNodes(
+    [
+        25281468,
+    ],
+)
+seny reqwest
+seny reqwest
+TExt {"by":"deadmik3","id":25280435,"parent":25280169,"text":"k8s runs containers, docker is just one implementation of containers.","time":1606937471,"type":"comment"}
+TExt {"by":"geerlingguy","id":25280270,"kids":[25286100],"parent":25280167,"text":"It&#x27;s a situation where &#x27;Docker&#x27; has become eponymous with &#x27;container&#x27;. But &#x27;Docker&#x27; in this case refers to the runtime that Kubernetes uses to run container images on servers (&#x27;nodes&#x27;) where the UI&#x2F;UX features of Docker (like it&#x27;s CLI, image building capabilities, etc.) are not needed.<p>Container images nowadays can be built by a variety of tools, and run by a variety of tools, with Docker likely being the most popular end-user tool with the most history and name recognition. Others like Podman&#x2F;Buildah are differently-architected replacements.<p>As long as a container meets the open container specs, it can be built with whatever tool and run on whatever tool that also follows the specs.","time":1606936778,"type":"comment"}
+mESSAGE :FoundNodes(
+    [],
+)
+mESSAGE :FoundNodes(
+    [
+        25286100,
+    ],
+)
+sending reqwest
+sending reqwest
+sending reqwest
+seny reqwest
+TExt {"by":"bird_monster","id":25280462,"kids":[25281128],"parent":25280169,"text":"From your post, I think you might fundamentally misunderstand Docker&#x27;s use&#x2F;value. From a value-add standpoint, Docker doesn&#x27;t really care about &quot;isolating shared library dependencies&quot;, but instead, compartmentalizing an entire application, dependencies and all. The value in this, of course, is that you no longer have to care about version conflicts between resources that are sharing a machine. As an added bonus, it means your deployment process can stay the same regardless of the type of container you&#x27;re deploying. Before, if you had to deploy a Ruby app as well as a Python app, those required fundamentally different processes, as they each require their own package managers and interpreters. With a container, you compile each of those tools _into the container_, and then your deployment process is just &quot;Create container image, send it somewhere&quot;.<p>Hell, even if you wrote an application with 0 dependencies, you&#x27;re still on the hook for installing the correct version of its compiler, the correct version of your deployment tool, and the correct version&#x2F;OS of your VM. These are still dependencies, even if they&#x27;re not dev dependencies.<p>&gt; It certainly doesn&#x27;t make things easier, faster, more secure, or cheaper;<p>If you don&#x27;t think being able to reuse software makes your workflow easier, faster and at the very least cheaper, I&#x27;m not sure what you could possibly think would do those things.","time":1606937579,"type":"comment"}
+mESSAGE :FoundNodes(
+    [
+        25281128,
+    ],
+)
+seny reqwest
+TExt {"by":"dbmikus","id":25280223,"parent":25280169,"text":"Kubernetes still uses containers, just not Docker. From the release notes:<p>&gt; We encourage you to evaluate moving to a container runtime that is a full-fledged implementation of CRI...","time":1606936562,"type":"comment"}
+mESSAGE :FoundNodes(
+    [],
+)
+sending reqwest
+seny reqwest
+TExt {"by":"alpb","id":25281043,"parent":25279967,"text":"Your post is entirely clickbait. Docker runtime support doesn&#x27;t really matter since most people already have moved onto other runtimes like containerd&#x2F;runc.","time":1606940470,"type":"comment"}
+mESSAGE :FoundNodes(
+    [],
+)
+seny reqwest
+TExt {"by":"andyjohnson0","id":25280245,"kids":[25280313,25280378],"parent":25279967,"text":"You can edit the title for two hours after submitting the article.","time":1606936630,"type":"comment"}
+mESSAGE :FoundNodes(
+    [
+        25280313,
+        25280378,
+    ],
+)
+sending reqwest
+sending reqwest
+seny reqwest
+TExt {"by":"ccmcarey","id":25280621,"parent":25280123,"text":"Yep, they&#x27;re not really &quot;Docker&quot; images. A while ago the image&#x2F;container formats were standardized through the OCI.","time":1606938299,"type":"comment"}
+mESSAGE :FoundNodes(
+    [],
+)
+seny reqwest
+TExt {"by":"jsmith45","id":25280599,"parent":25280123,"text":"Right. The simplest option is to use containerd, as the runtime. Installing docker will also install containerd (because docker uses it internally), so nothing much needs to change except a configuration option. docker and k8s can run side by side sharing the same containerd instance, in case you need to do something like build containers inside your k8s cluster.<p>You lose out on things that require access to the docker daemon socket, but ideally any such software should be replaced with something that talks with the kubernetes API instead. (exception is building containers in cluster. If you need that, run docker side by side with the kubelet, or use buildkit with containerd integration). You also lose the ability to interact with containers with the docker cli tool. Use crictl instead, which has most of the same commands, but also includes certain k8s relevant information in output tables.","time":1606938190,"type":"comment"}
+seny reqwest
+mESSAGE :FoundNodes(
+    [],
+)
+TExt {"by":"shadowgovt","id":25280383,"kids":[25280588],"parent":25280287,"text":"It&#x27;s probably fair to extrapolate that some tools they rely upon in their business flow aren&#x27;t available on Linux, which is probably of concern.","time":1606937299,"type":"comment"}
+mESSAGE :FoundNodes(
+    [
+        25280588,
+    ],
+)
+sending reqwest
+seny reqwest
+seny reqwest
+TExt {"by":"xorcist","id":25283542,"kids":[25284017],"parent":25282379,"text":"You can, but buildah exists.","time":1606953926,"type":"comment"}
+TExt {"by":"Brian_K_White","id":25280749,"kids":[25280960],"parent":25280287,"text":"If I made presentations, you would discover that my content was all created on a linux desktop.<p>What a totally random data point of no relevance or significance eh?<p>Such things do in fact reflect the character and nature of the people involved. It doesn&#x27;t necessarilly define them entirely, but yes it does reflect them.<p>It&#x27;s not that you&#x27;re not a &quot;true Scotsman&quot; necessarily if you say, care about linux primarily in other roles than desktops. You can be perfectly sincere in that, and it&#x27;s valuable even if it only goes that far. But it does mean you are in a different class from people who actually do abjure the convenience of proprietary software wherever possible, and today &quot;possible&quot; absolutely includes ordinary office work and even presentation media creation.<p>It&#x27;s perfectly ok to be so compromised. Everyone doesn&#x27;t have to be Stallman.<p>It&#x27;s equally perfectly fair to observe that these people are not in that class, when such class does exist and other people do actually live the life.<p>You can&#x27;t have it both ways that&#x27;s all. If you want to preach a certain gospel to capitalise on the virtue signal, without actually living that gospel and not actually posessing that virtue, it&#x27;s completely fair to be called out for it.","time":1606938866,"type":"comment"}
+mESSAGE :FoundNodes(
+    [
+        25284017,
+    ],
+)
+mESSAGE :FoundNodes(
+    [
+        25280960,
+    ],
+)
+sending reqwest
+sending reqwest
+seny reqwest
+TExt {"by":"shadowgovt","id":25280522,"kids":[25281116],"parent":25280137,"text":"It depends on what one means by &quot;open source.&quot;<p>Open source is fine; there&#x27;s a ton of available code out there, to mix and match for whatever goals you need. Open <i>services</i> were never a thing, and what we&#x27;re observing is that the SAAS model is eating the entire marketplace because tying services together to solve tasks is far easier (and depending on scale, more maintainable) than tying software together to solve tasks on hardware you own and operate exclusively. Owning and operating the hardware in addition to owning and operating the software that does the thing you want to do doesn&#x27;t scale as flexibly as letting someone else maintain the hardware and provide service-level guarantees, for a wide variety of applications. But the software driving those services is generally closed-source.<p>If by &quot;open source&quot; you mean &quot;Free (as in freedom) software,&quot; the ship has kind of sailed. The GNU-style four essential freedoms break down philosophically in the case of SAAS, because the underlying assumption is &quot;It&#x27;s my hardware and I should have the right to control it&quot; and that assumption breaks down when it&#x27;s not my hardware. There may be an analogous assumption for &quot;It&#x27;s my data and...&quot; but nobody&#x27;s crystallized what that looks like in the way GNU crystallized the Four Freedoms.","time":1606937829,"type":"comment"}
+mESSAGE :FoundNodes(
+    [
+        25281116,
+    ],
+)
+sending reqwest
+seny reqwest
+seny reqwest
+TExt {"by":"shadowgovt","id":25280465,"parent":25280324,"text":"Support for Docker was a correct market move for Cloud to adopt users that were already familiar with a tech base.<p>But divorcing their API from that tech base is also a move to support Cloud users---they don&#x27;t want the story for big companies to be &quot;If you want to use Kubernetes, you <i>must</i> also attach to Docker.&quot; That cuts potential customers out of the market who want to use Kubernetes but may have a reason they can&#x27;t use Docker (even if that reason is simply strategic).<p>Google Cloud&#x27;s business model walks a tightrope between usability and flexibility. Really, all the cloud vendors do, to varying degrees of success.","time":1606937606,"type":"comment"}
+TExt {"by":"btilly","id":25280761,"kids":[25280978],"parent":25280141,"text":"Meh.<p>The whole idea of containerization came from Google anyways, who uses it internally.  Docker came out with their container system without understanding what made it work so well for Google.  They then discovered the hard way that the whole point of containers is to not matter, which makes it hard to build a business on them.<p>Docker responded by building up a whole ecosystem and doing everything that they could to make Docker matter.  Which makes them a PITA to use.  (One which you might not notice if you internalize their way of doing things and memorize their commands.)<p>One of my favorite quotes about Docker was from a Linux kernel developer.  It went, &quot;On the rare occasions when they manage to ask the right question, they don&#x27;t understand the answer.&quot;<p>I&#x27;ve seen Docker be a disaster over and over again.  The fact that they have a good sales pitch only makes it worse because more people get stuck with a bad technology.<p>Eliminating Docker from the equation seems to me to be an unmitigated Good Thing.","time":1606938906,"type":"comment"}
+mESSAGE :FoundNodes(
+    [],
+)
+mESSAGE :FoundNodes(
+    [
+        25280978,
+    ],
+)
+sending reqwest
+seny reqwest
+TExt {"by":"cactus2093","id":25280469,"kids":[25280485],"parent":25280141,"text":"I get preferring that major open sourced projects weren&#x27;t controlled by a big corporation, but this seems overly dramatic.<p>Docker was always a company first and foremost, I fail to see how leaving the technology in their commercial control would have been better in any way than making it an open standard. \n Just because Docker = small = good and Google = giant corporation = evil? Docker raised huge amounts of VC funding, they had every intention of becoming a giant corporation themselves.<p>And it&#x27;s kind of bizarre to completely discount the outcome of this situation, which is that we have amazing container tools that are free and open and standardized, just because you don&#x27;t like some of the parties involved in getting to this point.","time":1606937618,"type":"comment"}
+mESSAGE :FoundNodes(
+    [
+        25280485,
+    ],
+)
+sending reqwest
+seny reqwest
+TExt {"by":"judge2020","id":25280653,"kids":[25280780,25281028],"parent":25280307,"text":"&gt; But Docker Inc strongly discourages the docker runtime being used directly for infrastructure.<p>Is there a list of these defaults or other downsides to using docker instead of containerd?","time":1606938418,"type":"comment"}
+mESSAGE :FoundNodes(
+    [
+        25280780,
+        25281028,
+    ],
+)
+seny reqwest
+TExt {"by":"euank","id":25286500,"parent":25285446,"text":"containerd can serve CRI requests itself. This has been the case since the containerd v1.1.0 release[0], which included the cri &quot;plugin&quot; as an in-process part of the containerd binary. For a while, to keep up the plugin idea, it was in a separate github repo too, but these days it&#x27;s in the main containerd repo directly[1].<p>[0]: <a href=\"https:&#x2F;&#x2F;github.com&#x2F;containerd&#x2F;containerd&#x2F;releases&#x2F;tag&#x2F;v1.1.0\" rel=\"nofollow\">https:&#x2F;&#x2F;github.com&#x2F;containerd&#x2F;containerd&#x2F;releases&#x2F;tag&#x2F;v1.1.0</a><p>[1]: <a href=\"https:&#x2F;&#x2F;github.com&#x2F;containerd&#x2F;containerd&#x2F;tree&#x2F;9561d9389d&#x2F;pkg&#x2F;cri\" rel=\"nofollow\">https:&#x2F;&#x2F;github.com&#x2F;containerd&#x2F;containerd&#x2F;tree&#x2F;9561d9389d&#x2F;pkg...</a>","time":1606980692,"type":"comment"}
+sending reqwest
+mESSAGE :FoundNodes(
+    [],
+)
+sending reqwest
+seny reqwest
+TExt {"by":"Spivak","id":25281454,"parent":25280738,"text":"I feel like “how something works” and “implementation details” aren’t synonymous and are really context dependent.<p>As a user you should know the different types of namespacing that affect containers without necessarily knowing that&#x2F;how your runtime calls clone() to do it. And as a sysadmin you had better know how all the components fit together and their failure modes because you’re the one supporting them.<p>Different people have different views of any technology so someone’s necessary understanding as a user of managed k8s can be different than a sysadmin who is a user of k8s code itself.","time":1606942350,"type":"comment"}
+mESSAGE :FoundNodes(
+    [],
+)
+seny reqwest
+TExt {"by":"jrochkind1","id":25280506,"kids":[25281515],"parent":25280141,"text":"&gt; This was always a land-grab by...<p>What&#x27;s &quot;this&quot; in that sentence? Kubernetes in general?","time":1606937783,"type":"comment"}
+mESSAGE :FoundNodes(
+    [
+        25281515,
+    ],
+)
+seny reqwest
+TExt {"by":"freedomben","id":25280838,"kids":[25280866],"parent":25280243,"text":"You pretty much nailed it.  This is a super useful &quot;elevator description&quot; to give to people.  Mind if I share it (with attribution)?  Even better if you slap it into a blog post or something (except a tweet thread :-D), but HN is perfectly fine :-)","time":1606939299,"type":"comment"}
+mESSAGE :FoundNodes(
+    [
+        25280866,
+    ],
+)
+sending reqwest
+sending reqwest
+seny reqwest
+TExt {"by":"kgoutham93","id":25285119,"kids":[25286630,25285939],"parent":25280243,"text":"Noob question:<p>As I understand, dockershim makes docker daemon cri compliant. But dockerd already uses containerd which is cri compliant. So, why can&#x27;t kubelet directly interact with containerd APIs without dockershim?","time":1606967155,"type":"comment"}
+mESSAGE :FoundNodes(
+    [
+        25286630,
+        25285939,
+    ],
+)
+seny reqwest
+TExt {"by":"Patrick_Devine","id":25281759,"kids":[25286559,25281980],"parent":25280252,"text":"Former Docker employee here. We&#x27;ve been busy writing a way to allow you to build OCI images with your Kubernetes cluster using kubectl. This let&#x27;s you get rid of `docker build` and replace it with `kubectl build`.<p>You can check out the project here: <a href=\"https:&#x2F;&#x2F;github.com&#x2F;vmware-tanzu&#x2F;buildkit-cli-for-kubectl\" rel=\"nofollow\">https:&#x2F;&#x2F;github.com&#x2F;vmware-tanzu&#x2F;buildkit-cli-for-kubectl</a>","time":1606943773,"type":"comment"}
+mESSAGE :FoundNodes(
+    [
+        25286559,
+        25281980,
+    ],
+)
+seny reqwest
+TExt {"by":"k__","id":25280543,"kids":[25280787,25280715,25285419,25280610],"parent":25280307,"text":"Half-OT: What are alternative runtimes and why would you use them?","time":1606937935,"type":"comment"}
+mESSAGE :FoundNodes(
+    [
+        25280787,
+        25280715,
+        25285419,
+        25280610,
+    ],
+)
+sending reqwest
+sending reqwest
+sending reqwest
+sending reqwest
+sending reqwest
+sending reqwest
+sending reqwest
+sending reqwest
+seny reqwest
+TExt {"by":"freedomben","id":25280867,"kids":[25281557],"parent":25280418,"text":"I work for Red Hat as an OpenShift Consultant, so I&#x27;m on the bleeding edge of change and am constantly pushing boundaries.<p>Don&#x27;t tell the boss or the customers, but most of the time when release notes for a new version come out, I look at them and go &quot;WTF, why do we need that, I better do some research.&quot;  It&#x27;s fast changing, complex as hell, and absolutely brutal.  That said most things are there for a reason and once I dig in I usually see the need.<p>That said I do love it despite its warts.  There&#x27;s no doubt some Stockholm Syndrome at play here, but I love the API (which is pretty curlable btw, a mark of a great API IMHO) and the principles (declarative, everything&#x27;s a YAML&#x2F;JSON object in etcd, etc).  I see it the same way I did C++ (which I also loved).  It gives you <i>great power</i> which you can use to build an elegant, robust system, or you can create an unmaintainable, complex, monster of a nightmare.  It&#x27;s up to you.","time":1606939490,"type":"comment"}
+mESSAGE :FoundNodes(
+    [
+        25281557,
+    ],
+)
+seny reqwest
+sending reqwest
+TExt {"by":"rsanheim","id":25280345,"kids":[25282231,25280905,25280370,25283060],"parent":25280243,"text":"I&#x27;m sure all this complexity makes sense for all sorts of reasons buried in the history of Kubernetes development at Google. &quot;Things are the way they are because they got that way.&quot;<p>The fact that so many other orgs, many of which are startups or just small to medium sized tech companies, use a system this complex is ludicrous to me.","time":1606937127,"type":"comment"}
+mESSAGE :FoundNodes(
+    [
+        25282231,
+        25280905,
+        25280370,
+        25283060,
+    ],
+)
+seny reqwest
+TExt {"by":"manigandham","id":25283006,"kids":[25286556],"parent":25281886,"text":"This changes nothing for 99.9% of Kubernetes users.","time":1606950435,"type":"comment"}
+mESSAGE :FoundNodes(
+    [
+        25286556,
+    ],
+)
+seny reqwest
+TExt {"by":"nextaccountic","id":25280426,"kids":[25280540,25280473],"parent":25280307,"text":"Why do you spell containerd as &quot;ContainerD&quot;?<p>You wrote dockerd without caps.","time":1606937436,"type":"comment"}
+mESSAGE :FoundNodes(
+    [
+        25280540,
+        25280473,
+    ],
+)
+sending reqwest
+sending reqwest
+sending reqwest
+sending reqwest
+sending reqwest
+sending reqwest
+sending reqwest
+seny reqwest
+TExt {"by":"ghaff","id":25280490,"kids":[25281024],"parent":25280391,"text":"It&#x27;s actually even more confusing than that. There&#x27;s also Docker, Inc. the company and there used to be the Docker Enterprise product (although I believe newer versions are now Mirantis Enterprise which bought that part of the business).<p>Docker is pretty much the a textbook example of why you probably shouldn&#x27;t use the same word for a lot of different things.","time":1606937727,"type":"comment"}
+mESSAGE :FoundNodes(
+    [
+        25281024,
+    ],
+)
+seny reqwest
+sending reqwest
+TExt {"by":"fulafel","id":25286100,"parent":25280270,"text":"This holds for OCI style containers, but not all container systems are of the Docker&#x2F;OCI variety. For example LXD.","time":1606977006,"type":"comment"}
+mESSAGE :FoundNodes(
+    [],
+)
+seny reqwest
+seny reqwest
+TExt {"by":"chucky_z","id":25280918,"kids":[25282439],"parent":25280418,"text":"Give nomad, docker swarm, or lxd a shot.","time":1606939773,"type":"comment"}
+TExt {"by":"ZiiS","id":25282797,"parent":25281886,"text":"This is deep in the internals of Kubernetes, nothing about `docker build&#x2F;push` or `kubectl apply` will change.","time":1606949248,"type":"comment"}
+mESSAGE :FoundNodes(
+    [],
+)
+mESSAGE :FoundNodes(
+    [
+        25282439,
+    ],
+)
+seny reqwest
+TExt {"by":"jacques_chester","id":25280134,"parent":25280089,"text":"Changing the runtime doesn&#x27;t change the registry.","time":1606936146,"type":"comment"}
+mESSAGE :FoundNodes(
+    [],
+)
+seny reqwest
+TExt {"by":"qz2","id":25281468,"kids":[25284787,25282420],"parent":25280234,"text":"Modern software development makes me wish I was born in the late 1940s.","time":1606942399,"type":"comment"}
+mESSAGE :FoundNodes(
+    [
+        25284787,
+        25282420,
+    ],
+)
+sending reqwest
+sending reqwest
+sending reqwest
+seny reqwest
+TExt {"by":"richardwhiuk","id":25283432,"parent":25280307,"text":"OCI container images and Docker images aren&#x27;t the same.","time":1606953004,"type":"comment"}
+mESSAGE :FoundNodes(
+    [],
+)
+seny reqwest
+TExt {"by":"tannhaeuser","id":25281128,"kids":[25281204],"parent":25280462,"text":"I&#x27;m sure you believe what you&#x27;re saying. But, as pointed out in many posts here, very few people can setup Kubernetes, let alone know it enough for troubleshooting. As an example, in a project of mine we had to call-in an k8s expert after almost a week of downtime (turned out IP address space was exhausted on that Azure instance). And a constant in almost all recent projects of mine is sure people fiddling with k8s integration setups, and achieving very little.<p>In that kind of situation, it is unwise and irresponsible to treat your infrastructure as a black box. You still need to be able to re-build&#x2F;migrate your images for security, stability, and feature upgrades, so you&#x27;re basically just piling additional complexity on top.<p>The premise of Kubernetes and containers&#x2F;clouds is an economical (and legitimate) rather than technical one: that you don&#x27;t have to invest into hardware upfront, and pay as you go with PaaS instead. That tactic only works, though, as long as you have a strong negotiation position as customer. In practice, if you won&#x27;t get locked-in to cloud providers by tying your k8s infra to IAM or other auth infrastructure, or mixing Kubernetes with non-Kubernetes SaaS such as DBs (which suck on k8s), then you still won&#x27;t be able to practically move your workload setup elsewhere due to sheer complexity and risk&#x2F;downtime.<p>The economical benefit is further offset by a wrong assumption that you need no or fewer admin staff for Docker (&quot;DevOps&quot; in an HR sense).","time":1606940924,"type":"comment"}
+mESSAGE :FoundNodes(
+    [
+        25281204,
+    ],
+)
+seny reqwest
+TExt {"by":"chucky_z","id":25280892,"kids":[25280910],"parent":25280243,"text":"The GP did ask about logging though specifically.  One of Docker daemon&#x27;s more interesting features is how much log enrichment it does.  Does kubelet do the same thing out of the box?  I know containerd itself does not, unfortunately.","time":1606939631,"type":"comment"}
+mESSAGE :FoundNodes(
+    [
+        25280910,
+    ],
+)
+seny reqwest
+TExt {"by":"asah","id":25280313,"parent":25280245,"text":"even better: deprecating non-essential Docker components (or something to that effect). Currently, this is clickbait.","time":1606936980,"type":"comment"}
+mESSAGE :FoundNodes(
+    [],
+)
+seny reqwest
+TExt {"by":"mschuster91","id":25281637,"kids":[25282649],"parent":25280418,"text":"Getting Kubernetes itself running on bare metal (&quot;running&quot; as in &quot;you have containers and can access them&quot;) is half a day of work.<p>What is <i>deadly difficult</i> is getting networking to work. Even a comparably &quot;easy&quot; thing with a couple of two-NIC machines (one external, internet-routable, one DMZ) cost me a fucking week.<p>What&#x27;s even worse is when one has to obey corporate restrictions - for example, only having external interfaces on &quot;loadbalancer&quot; nodes:<p>- First of all, MetalLB only has <i>one</i> active Speaker node which means your bandwidth is limited to that node&#x27;s uplink and you&#x27;re wasting the resources of the other loadbalancers.<p>- Second, you <i>can</i> taint your nodes to only schedule the MetalLB speaker on your &quot;loadbalancer&quot; nodes via tolerations... but how the f..k do you convince MetalLB to change the speaker node once you apply that change?!<p>- Third, what do you do when you want to expose N services but only have one or two external IPs? DC&#x2F;OS was way more flexible, you had one set of loadbalancers (haproxy) that did all the routing, and could run an entire cluster on four machines - two LBs, one master, one worker. There is <i>no way</i> to replicate this with Kubernetes. None.","time":1606943182,"type":"comment"}
+mESSAGE :FoundNodes(
+    [
+        25282649,
+    ],
+)
+seny reqwest
+TExt {"by":"Supermancho","id":25280378,"kids":[25280497,25280495,25280494],"parent":25280245,"text":"&gt; You can edit the title for two hours after submitting the article.<p>The submitter can. This kind of misses the point anyway. The title is misleading.","time":1606937273,"type":"comment"}
+mESSAGE :FoundNodes(
+    [
+        25280497,
+        25280495,
+        25280494,
+    ],
+)
+seny reqwest
+TExt {"by":"djsumdog","id":25280588,"parent":25280383,"text":"I think Derek Taylor does a good breakdown of all the various software choices by The Linux Foundation:<p><a href=\"https:&#x2F;&#x2F;www.youtube.com&#x2F;watch?v=a-2dYfYvJGk\" rel=\"nofollow\">https:&#x2F;&#x2F;www.youtube.com&#x2F;watch?v=a-2dYfYvJGk</a>","time":1606938131,"type":"comment"}
+mESSAGE :FoundNodes(
+    [],
+)
+sending reqwest
+sending reqwest
+sending reqwest
+sending reqwest
+sending reqwest
+sending reqwest
+seny reqwest
+TExt {"by":"fwip","id":25280960,"parent":25280749,"text":"It seems hyperbolic to say that the operating system a person uses is reflective of their character.","time":1606939993,"type":"comment"}
+mESSAGE :FoundNodes(
+    [],
+)
+seny reqwest
+TExt {"by":"root_axis","id":25284017,"kids":[25285264],"parent":25283542,"text":"What&#x27;s the advantage of using buildah?","time":1606957781,"type":"comment"}
+mESSAGE :FoundNodes(
+    [
+        25285264,
+    ],
+)
+sending reqwest
+seny reqwest
+TExt {"by":"Brian_K_White","id":25281116,"parent":25280522,"text":"This is a pretty good primer on this peculiar new problem.<p>It&#x27;s kind of a case study for future text books about how if there is a certain incentive, it will be embodied and satisfied no matter what. If the names and labels have to change, they will, but the essentials will somehow turn out to not have changed in any meaningful way in the end.<p>It&#x27;s if anything worse now than before. At least before you were allowed to own your inscrutible black box and use it indefinitely. There was sane persistence like a chair. You buy it, and it&#x27;s there for you as long as you still want it after that. maybe you don&#x27;t <i>want</i> it any more after a while, but it doesn&#x27;t go poof on it&#x27;s own.<p>One way things are actually better now though is, now in many cases the saas outside of your control really is just a convenience you <i>could</i> replace with self-hosted good-enough alternatives, thanks to decades of open source software and tools building up to being quite powerful and capable today.<p>I think this is a case of the rising water lifting all ships. If the proprietry crowd gained more ability to abuse their consumers, everyone else has likewise gained more ability to live without them. Both things are true and I tell myself it&#x27;s a net positive rather than a positive and a negative cancelling out, because more and better tools is a net positive no matter that both sides have access to use them for crossed purposes. At least it means you have more options today than you did yesterday.","time":1606940870,"type":"comment"}
+mESSAGE :FoundNodes(
+    [],
+)
+seny reqwest
+TExt {"by":"TomBombadildoze","id":25280978,"kids":[25282988,25283070],"parent":25280761,"text":"&gt; The whole idea of containerization came from Google anyways, who uses it internally.<p>Not really. Jails and chroots are a form of containerization and have existed for a long time. Sun debuted containers (with Zones branding) as we think of them today long before Google took interest, and still years before Docker came to the forefront.<p>&gt; I&#x27;ve seen Docker be a disaster over and over again. The fact that they have a good sales pitch only makes it worse because more people get stuck with a bad technology.<p>&gt; Eliminating Docker from the equation seems to me to be an unmitigated Good Thing.<p>Now this I agree with, Docker is a wreck. Poor design, bad tooling, and often downright hostile to the needs of their users. Docker is the Myspace of infra tooling and the sooner they croak, the better.","time":1606940086,"type":"comment"}
+mESSAGE :FoundNodes(
+    [
+        25282988,
+        25283070,
+    ],
+)
+sending reqwest
+sending reqwest
+seny reqwest
+TExt {"by":"landerwust","id":25280485,"kids":[25281013,25280618],"parent":25280469,"text":"&gt; making it an open standard<p>I would hesitate to use the term &quot;open standard&quot; until I&#x27;d thoroughly assessed the identities of everyone contributing to that open spec, along with those of their employers, and what history the spec has of accepting genuinely &quot;community&quot; contributions (in the 1990s sense of that word)","time":1606937707,"type":"comment"}
+mESSAGE :FoundNodes(
+    [
+        25281013,
+        25280618,
+    ],
+)
+sending reqwest
+sending reqwest
+seny reqwest
+TExt {"by":"jsmith45","id":25281028,"parent":25280653,"text":"I&#x27;m not sure of any such list, but using containerd directly is faster, less likely to break k8s when docker adds new features, etc.<p>Much of this all stems from the flak infrastructure people gave docker when they made swarm part of the engine. But it comes to more than that. Docker has its own take on networking, on volumes, on service discovery, etc. If you are trying to use docker as a component of your own product, at least some of these are likely things you want to implement differently. And the same may well be true of any new features docker wants to add in the future. At which point one must ask why bother using docker directly?<p>containerd was quite literally created when docker decided to extract the parts of docker that projects like kubernetes might want to use. It has evolved heavily since then, but that really does capture the level at which it sits. This leaves dockerd in charge of things like swarm, docker&#x27;s view on how networking should work, docker&#x27;s take on service discovery, dockers view on how shares storage should work, building containers, etc.","time":1606940360,"type":"comment"}
+mESSAGE :FoundNodes(
+    [],
+)
+seny reqwest
+TExt {"by":"rcarmo","id":25286559,"parent":25281759,"text":"That’s pretty nice. One of the things I am curious about is how Kubernetes will deal with private “insecure” in-cluster registries (which are a major pain to set up TLS for when you’re doing edge deployments or stuff that is inherently offline).","time":1606981301,"type":"comment"}
+mESSAGE :FoundNodes(
+    [],
+)
+seny reqwest
+TExt {"by":"mfer","id":25280780,"parent":25280653,"text":"Docker did a nice blog post on this a few years ago. Docker uses containerd for running containers. It just does things on top of it that you don&#x27;t need with Kubernetes. There&#x27;s a nice diagram in the post, too.<p><a href=\"https:&#x2F;&#x2F;www.docker.com&#x2F;blog&#x2F;what-is-containerd-runtime&#x2F;\" rel=\"nofollow\">https:&#x2F;&#x2F;www.docker.com&#x2F;blog&#x2F;what-is-containerd-runtime&#x2F;</a>","time":1606939009,"type":"comment"}
+mESSAGE :FoundNodes(
+    [],
+)
+seny reqwest
+TExt {"by":"jrockway","id":25281980,"kids":[25282224],"parent":25281759,"text":"That is a really good idea!  Does this just schedule a one-off pod, then have that do the build?","time":1606945042,"type":"comment"}
+seny reqwest
+mESSAGE :FoundNodes(
+    [
+        25282224,
+    ],
+)
+TExt {"by":"jacques_chester","id":25280866,"parent":25280838,"text":"Thankyou, I&#x27;m flattered. Please feel free to share.","time":1606939488,"type":"comment"}
+mESSAGE :FoundNodes(
+    [],
+)
+sending reqwest
+seny reqwest
+seny reqwest
+TExt {"by":"jacques_chester","id":25285939,"parent":25285119,"text":"&gt; <i>So, why can&#x27;t kubelet directly interact with containerd APIs without dockershim?</i><p>Each kubelet does its thing through the Container Runtime Interface (CRI), so in a sense it doesn&#x27;t know what it&#x27;s running on. If it used containerd&#x27;s interfaces directly, it wouldn&#x27;t be possible to substitute in a different option.<p>For example, there are emerging VM-based approaches like Firecracker and VMware &quot;Project Pacific&quot; (disclosure: I work at VMware).","time":1606975559,"type":"comment"}
+mESSAGE :FoundNodes(
+    [],
+)
+TExt {"by":"mfer","id":25280610,"parent":25280543,"text":"For a runtime in your Kubernetes cluster there are containerd and cri-o. These are good for Docker &#x2F; Open Container Initiative images.<p>There are others... some for non-Docker image support. There are people running other things than just Docker these days. They are more niche case.","time":1606938234,"type":"comment"}
+mESSAGE :FoundNodes(
+    [],
+)
+seny reqwest
+TExt {"by":"Spivak","id":25281515,"kids":[25283272],"parent":25280506,"text":"The standardization of “Docker” containers into “OCI” containers and the huge amount of public pressure put on Docker to separate out their runtime containerd from dockerd.","time":1606942590,"type":"comment"}
+mESSAGE :FoundNodes(
+    [
+        25283272,
+    ],
+)
+seny reqwest
+TExt {"by":"seabrookmx","id":25285419,"parent":25280543,"text":"One such alternative runtime with tangible differences to containerd&#x2F;cri-o is Kata[1], which actually runs OCI images as microvm&#x27;s. This has some benefits if the applications you&#x27;re running are untrusted&#x2F;need additional sandboxing, such as if you&#x27;re running a PaaS on bare-metal k8s.<p>[1]: <a href=\"https:&#x2F;&#x2F;github.com&#x2F;kata-containers&#x2F;runtime\" rel=\"nofollow\">https:&#x2F;&#x2F;github.com&#x2F;kata-containers&#x2F;runtime</a>","time":1606970066,"type":"comment"}
+mESSAGE :FoundNodes(
+    [],
+)
+sending reqwest
+seny reqwest
+TExt {"by":"euank","id":25286630,"parent":25285119,"text":"The kubelet can talk to containerd&#x27;s cri endpoint, yes, but there&#x27;s one additional bit of complexity.<p>If someone wants to use kubelet + docker so that they can, for example, ssh into a node and type &#x27;docker ps&#x27; to see containers, or have something else using the docker api see the containers the kubelet started, that won&#x27;t work after re-pointing the kubelet from docker to containerd.<p>The difference here is namespacing[0], but not the linux-kernel-container-namespace, rather the containerd concept by the same name to allow &quot;multi-tenancy&quot; of a single containerd daemon.<p>In addition, I don&#x27;t think you could have docker + cri run in the same containerd namespace since they end up using different networking and storage containerd plugins. I think that terminology is right.<p>So yeah, repointing the kubelet to containerd directly works fine, but it won&#x27;t be the same thing as running docker containers.<p>[0]: <a href=\"https:&#x2F;&#x2F;github.com&#x2F;containerd&#x2F;containerd&#x2F;blob&#x2F;9561d938&#x2F;docs&#x2F;namespaces.md#how-does-multi-tenancy-work\" rel=\"nofollow\">https:&#x2F;&#x2F;github.com&#x2F;containerd&#x2F;containerd&#x2F;blob&#x2F;9561d938&#x2F;docs&#x2F;...</a>","time":1606982098,"type":"comment"}
+mESSAGE :FoundNodes(
+    [],
+)
+seny reqwest
+TExt {"by":"freedomben","id":25280715,"kids":[25285853],"parent":25280543,"text":"In the OpenShift world we use CRI-O and it has been awesome for us.  I&#x27;ve never actually had it be a problem.  Occasionally have to SSH into a node and inspect with crictl to see what&#x27;s going on but it&#x27;s almost always PEBKAC that points at CRI-O when it&#x27;s not CRI-O&#x27;s fault.  I&#x27;d definitely recommend looking at it.","time":1606938691,"type":"comment"}
+mESSAGE :FoundNodes(
+    [
+        25285853,
+    ],
+)
+sending reqwest
+seny reqwest
+TExt {"by":"euank","id":25286556,"parent":25283006,"text":"For what it&#x27;s worth, there are a few cases where docker vs some other runtime does make a difference.<p>One difference is that if you &#x27;docker build&#x27; or &#x27;docker load&#x27; an image on a node, with docker as a runtime a pod could be started using that image, but if containerd is the runtime it would have had to be &#x27;ctr image import&#x27;ed instead.<p>I know that minikube, at some point, suggested people use &#x27;DOCKER_HOST=..&#x27; + &#x27;docker build&#x27; to make images available to that minikube node, which this would cause to not work.<p>It would be nice if k8s had its own container image store so you could &#x27;kubectl image load&#x27; in a runtime agnostic way, but unfortunately managing the fetching of container images has ended up as something the runtime does, and k8s has no awareness of above the runtime.<p>Oh, and for production clusters, a distribution moving from dockerd to containerd could break a few things, like random gunk in the ecosystem that tries to find kubernetes pods by querying the docker api and checking labels. I think there&#x27;s some monitoring and logging tools that do that.<p>If distributions move from docker to docker-via-a-cri-shim, that won&#x27;t break either of those use cases of course.","time":1606981242,"type":"comment"}
+mESSAGE :FoundNodes(
+    [],
+)
+seny reqwest
+TExt {"by":"jsmith45","id":25280787,"kids":[25281627],"parent":25280543,"text":"The main alternative runtime that I know of (at the level of containerd) is CRI-O. These runtimes are at the level of fetching images, preparing manifests etc. I&#x27;m not really sure what benefits they provide. CRI-O is intended to be kubernetes specific, and thus lacks any features that containerd would have that k8s does not need. This in theory ought to mean smaller, lighter, more easily auditable code.<p>There is another lower level of runtime, the OCI runtime, of which the main implementation is runc. Alternatives have interesting attributes, like `runv` running containers in VMs with their own kernel to get even grater isolation, `runhcs` which is the OCI runtime for running windows containers, etc. Most if not all of the higher level runtimes allow switching out the OCI runtime, but in general sticking with the default of `runc` is fine.","time":1606939077,"type":"comment"}
+mESSAGE :FoundNodes(
+    [
+        25281627,
+    ],
+)
+seny reqwest
+TExt {"by":"jacques_chester","id":25281557,"parent":25280867,"text":"<i>The full-time job of keeping up with Kubernetes</i> was published in February 2018[0] and things have only gotten faster since then.<p>[0] <a href=\"https:&#x2F;&#x2F;goteleport.com&#x2F;blog&#x2F;kubernetes-release-cycle&#x2F;\" rel=\"nofollow\">https:&#x2F;&#x2F;goteleport.com&#x2F;blog&#x2F;kubernetes-release-cycle&#x2F;</a> , HN discussion: <a href=\"https:&#x2F;&#x2F;news.ycombinator.com&#x2F;item?id=16285192\" rel=\"nofollow\">https:&#x2F;&#x2F;news.ycombinator.com&#x2F;item?id=16285192</a>","time":1606942766,"type":"comment"}
+mESSAGE :FoundNodes(
+    [],
+)
+sending reqwest
+seny reqwest
+seny reqwest
+TExt {"by":"jacques_chester","id":25280370,"kids":[25280839],"parent":25280345,"text":"Well, I might have designed it differently, but I wasn&#x27;t there. For what it does, this architecture works well. More to the point: none of it is visible to end-users of Kubernetes. You send a Pod definition, some magic happens, pow! running software.","time":1606937244,"type":"comment"}
+mESSAGE :FoundNodes(
+    [
+        25280839,
+    ],
+)
+TExt {"by":"mplewis","id":25283060,"parent":25280345,"text":"You don&#x27;t need the complexity until you do, and then you&#x27;re facing a rewrite into the complex system. Defining a deployment in YAML isn&#x27;t really all that hard.","time":1606950829,"type":"comment"}
+mESSAGE :FoundNodes(
+    [],
+)
+seny reqwest
+TExt {"by":"kordlessagain","dead":true,"id":25280473,"parent":25280426,"text":"MANY THINGS IGNORE CAPS.","time":1606937650,"type":"comment"}
+mESSAGE :FoundNodes(
+    [],
+)
+sending reqwest
+seny reqwest
+TExt {"by":"comfydragon","id":25280905,"parent":25280345,"text":"The practical change that&#x27;s happening is that in future versions of Kubernetes, they&#x27;re removing support for using a shim for telling the Docker daemon to run containers, and focusing on just using containerd (which Docker uses under the covers anyway).<p>It&#x27;s kind of like if you had a shell script to launch programs, and it used to move the mouse to press icons, but now you&#x27;ve deprecated that and will only run programs directly.","time":1606939685,"type":"comment"}
+mESSAGE :FoundNodes(
+    [],
+)
+seny reqwest
+TExt {"by":"tylersmith","id":25280540,"kids":[25281751],"parent":25280426,"text":"dockerd is the literal name of a binary while containerd is the name of a project. As far as I can tell containerd stylizes its name in all lowercase but more than half the time I still see it written like a standard name, ContainerD, exactly like this.","time":1606937925,"type":"comment"}
+mESSAGE :FoundNodes(
+    [
+        25281751,
+    ],
+)
+sending reqwest
+seny reqwest
+TExt {"by":"oblio","id":25281024,"kids":[25281665],"parent":25280490,"text":"Java :-)<p>Better yet, .Net.","time":1606940339,"type":"comment"}
+mESSAGE :FoundNodes(
+    [
+        25281665,
+    ],
+)
+seny reqwest
+TExt {"deleted":true,"id":25282420,"parent":25281468,"time":1606947231,"type":"comment"}
+mESSAGE :FoundNodes(
+    [],
+)
+seny reqwest
+TExt {"by":"lima","id":25282231,"kids":[25285978],"parent":25280345,"text":"Hi! Small tech company that uses k8s here. Much of the complexity is irreducible and has to go somewhere, and it&#x27;s much better to have it in a single, stateless, well-defined place that&#x27;s also easy too introspect.<p>I&#x27;ve seen way too many Ansible nightmares grown out of deceptively &quot;simple&quot; mutable VM deployments.<p>k8s makes our life so much easier because it eliminates a whole bunch of other complexity. Easily reproducible development environments, workload scheduling, sane config management...","time":1606946364,"type":"comment"}
+mESSAGE :FoundNodes(
+    [
+        25285978,
+    ],
+)
+seny reqwest
+TExt {"deleted":true,"id":25280494,"parent":25280378,"time":1606937744,"type":"comment"}
+mESSAGE :FoundNodes(
+    [],
+)
+sending reqwest
+sending reqwest
+seny reqwest
+TExt {"by":"bird_monster","id":25281204,"parent":25281128,"text":"&gt; But, as pointed out in many posts here, very few people can setup Kubernetes,<p>My post, and most of yours, had nothing to do with Kubernetes, but containers in general. I don&#x27;t care for Kubernetes, and would actively reject using it 99% of the time. Your post, however, was mostly about containerization of applications, whose validity has nothing to do with one particular product or pattern (Kubernetes).<p>Containers are an almost unanimous win in terms of the simplification of development and deployment. Conflating Kubernetes to be the only approach to containerization is a farce.","time":1606941283,"type":"comment"}
+mESSAGE :FoundNodes(
+    [],
+)
+seny reqwest
+TExt {"by":"yjftsjthsd-h","id":25282439,"kids":[25284482],"parent":25280918,"text":"I&#x27;m currently involved in an effort to rip out docker swarm at work because its overlay networks are <i>shockingly</i> unreliable. LXD looks interesting but <a href=\"https:&#x2F;&#x2F;linderud.dev&#x2F;blog&#x2F;packaging-lxd-for-arch-linux&#x2F;\" rel=\"nofollow\">https:&#x2F;&#x2F;linderud.dev&#x2F;blog&#x2F;packaging-lxd-for-arch-linux&#x2F;</a> convinced me that it&#x27;s another Canonical NIH special and probably best avoided (in particular, &quot;only distributed for Ubuntu via snaps&quot; means &quot;forces auto-updates&quot; which means &quot;not going in my environment&quot;). Need to try Nomad; I&#x27;m cautiously optimistic since the rest of HashiCorp&#x27;s stuff is good.","time":1606947320,"type":"comment"}
+mESSAGE :FoundNodes(
+    [
+        25284482,
+    ],
+)
+seny reqwest
+TExt {"by":"andyjohnson0","id":25280495,"parent":25280378,"text":"I was replying to the submitter.","time":1606937750,"type":"comment"}
+mESSAGE :FoundNodes(
+    [],
+)
+seny reqwest
+TExt {"by":"gravypod","id":25285264,"kids":[25286844,25286259],"parent":25284017,"text":"It&#x27;s docker without the dockerfile which, from what I can tell, is the biggest feature of docker most engineers like.<p>I&#x27;ve personally switched to bazel for building most of my containers but that&#x27;s a far departure from what the majority of people are doing I suspect.","time":1606968429,"type":"comment"}
+mESSAGE :FoundNodes(
+    [
+        25286844,
+        25286259,
+    ],
+)
+seny reqwest
+TExt {"by":"von_neumann","id":25284787,"kids":[25285086,25286417],"parent":25281468,"text":"You like punch-cards? Because that is how you get them!","time":1606964365,"type":"comment"}
+mESSAGE :FoundNodes(
+    [
+        25285086,
+        25286417,
+    ],
+)
+seny reqwest
+TExt {"by":"throwaway201103","id":25282649,"parent":25281637,"text":"Yes, it&#x27;s the networking that never works for me either. I&#x27;m one guy, wear many hats, and don&#x27;t have time to chase rabbits down holes. If I follow published instructions and it doesn&#x27;t work, I pretty much stop there.","time":1606948427,"type":"comment"}
+mESSAGE :FoundNodes(
+    [],
+)
+seny reqwest
+TExt {"by":"GordonS","id":25280497,"parent":25280378,"text":"I am the submitter, I just didn&#x27;t know I could edit the title after 7 years of using HN! Gone ahead and done it now.","time":1606937753,"type":"comment"}
+mESSAGE :FoundNodes(
+    [],
+)
+seny reqwest
+TExt {"by":"jacques_chester","id":25280910,"parent":25280892,"text":"Yes, I overlooked that. I am afraid I don&#x27;t know, but since the Docker daemon now relies on the same code, I would expect that there&#x27;s similar functionality at that level.","time":1606939725,"type":"comment"}
+mESSAGE :FoundNodes(
+    [],
+)
+seny reqwest
+TExt {"by":"bronson","id":25283070,"parent":25280978,"text":"Containers came from Solaris and the BSDs, and the warehouse-sized containerized deploys that this article&#x2F;changelog is associated with came from Google. You&#x27;re both right.<p>And agreed, Docker is a mess. It seems like everything that&#x27;s good about Docker was developed by other companies, and everything that&#x27;s bad about Docker was developed by Docker. The sooner the other companies can write Docker out of the picture the better. I want the time I wasted on Swarm back.","time":1606950893,"type":"comment"}
+mESSAGE :FoundNodes(
+    [],
+)
+sending reqwest
+sending reqwest
+sending reqwest
+sending reqwest
+sending reqwest
+seny reqwest
+seny reqwest
+TExt {"by":"cactus2093","id":25280618,"parent":25280485,"text":"I&#x27;ve never tried contributing to CRI so I don&#x27;t really know what the process is like. I imagine like any such large and established standard it would require a herculean effort, that doesn&#x27;t necessarily mean it&#x27;s not open just that it can&#x27;t possibly accept any random idea that comes along and still continue to serve its huge user base.<p>But let&#x27;s say you&#x27;re right and call it a closed standard. Then this change drops support for one older, clunkier closed standard in favor of the current closed standard. Still doesn&#x27;t seem like anything to get upset over.","time":1606938276,"type":"comment"}
+TExt {"by":"btilly","id":25282988,"parent":25280978,"text":"What Google pioneered was the idea of defining how to build a bunch of containers, building them, deploying them together to a cloud, and then having them talk to each other according to preset rules.<p>Yes, we had chroot, jails, and VMs long before.  I&#x27;d point to IBM&#x27;s 360 model 67 which was released in 1967 as the earliest example that I&#x27;m aware of.  A typical use before containerazation was shared hosting.  But people thought of and managed those as servers.  Maybe servers with some scripting, but still servers.<p>I&#x27;m not aware of anyone prior to Google treating them as disposable units that were built and deployed at scale according to automated rules.  There is a significant mind shift from &quot;let&#x27;s give you a pretend server&quot; to, &quot;let&#x27;s stand up a service in an automated way by deploying it with its dependency as a pretend server that you network together as needed&quot;.  And another one still to, &quot;And let&#x27;s create a network operating system to manage all services across all of our data centers.&quot;  And another one still to standardize on a practices that let any data center can go down at any time with no service disruption, and any 2 can go down with no bigger problems than increased latency.<p>Google standardized all of that years before I heard &quot;containerization&quot; whispered by anyone outside of Google.","time":1606950351,"type":"comment"}
+mESSAGE :FoundNodes(
+    [],
+)
+mESSAGE :FoundNodes(
+    [],
+)
+seny reqwest
+TExt {"by":"caniszczyk","id":25281013,"parent":25280485,"text":"The container image&#x2F;runtime&#x2F;distribution area is heavily standardized now via the Open Container Initiative (OCI) that was founded 5 years ago.<p><a href=\"https:&#x2F;&#x2F;www.linuxfoundation.org&#x2F;press-release&#x2F;2015&#x2F;12&#x2F;open-container-initiative-establishes-technical-governance-announces-new-members&#x2F;\" rel=\"nofollow\">https:&#x2F;&#x2F;www.linuxfoundation.org&#x2F;press-release&#x2F;2015&#x2F;12&#x2F;open-c...</a>\n<a href=\"https:&#x2F;&#x2F;kubernetes.io&#x2F;blog&#x2F;2016&#x2F;12&#x2F;container-runtime-interface-cri-in-kubernetes&#x2F;\" rel=\"nofollow\">https:&#x2F;&#x2F;kubernetes.io&#x2F;blog&#x2F;2016&#x2F;12&#x2F;container-runtime-interfa...</a><p>You can see the releases and specs that are supported by all major container runtimes here: <a href=\"https:&#x2F;&#x2F;opencontainers.org&#x2F;release-notices&#x2F;overview&#x2F;\" rel=\"nofollow\">https:&#x2F;&#x2F;opencontainers.org&#x2F;release-notices&#x2F;overview&#x2F;</a><p>For example, OpenShift ships <a href=\"https:&#x2F;&#x2F;cri-o.io\" rel=\"nofollow\">https:&#x2F;&#x2F;cri-o.io</a> in its kubernetes distribution as its container runtime, so this isn&#x27;t really new.<p>Disclosure: I helped start OCI and CNCF","time":1606940286,"type":"comment"}
+mESSAGE :FoundNodes(
+    [],
+)
+seny reqwest
+TExt {"by":"Patrick_Devine","id":25282224,"parent":25281980,"text":"Not quite a one-off pod, but very close to that. It will automatically create a builder pod for you if you don&#x27;t already have one, or you can specify one with whichever runtime that you want (containerd or docker). It uses buildkit to do the builds and has a syntax which is compatible with `docker build`.<p>There are also some pretty cool features. It supports building multi-arch images, so you can do things like create x86_64 and ARM images. It can also do build layer caching to a local registry for all of your builders, so it&#x27;s possible to scale up your pod and then share each of the layers for really efficient builds.","time":1606946326,"type":"comment"}
+mESSAGE :FoundNodes(
+    [],
+)
+seny reqwest
+TExt {"by":"jrochkind1","id":25283272,"parent":25281515,"text":"Do you think it shouldn&#x27;t have been standardized so other vendors products could be interoperable with docker&#x27;s containers, or just that the standardization should have been done differently, or other?","time":1606951927,"type":"comment"}
+mESSAGE :FoundNodes(
+    [],
+)
+seny reqwest
+TExt {"by":"sandGorgon","id":25285853,"parent":25280715,"text":"How has been your experience with crictl ?<p>Does it do everything that docker cli does ? Build, pull, etc ?","time":1606974678,"type":"comment"}
+mESSAGE :FoundNodes(
+    [],
+)
+seny reqwest
+TExt {"by":"ghaff","id":25281627,"parent":25280787,"text":"Yeah, the terminology around &quot;runtime&quot; is confusing and is used inconsistently. As you say, the actual runtime is something like runc which CRI-O (and I believe containerd) normally uses. CRI-O, as the name suggests, is an implementation of the Kubernetes Container Runtime Interface--which should work with any OCI-compliant runtime.","time":1606943123,"type":"comment"}
+mESSAGE :FoundNodes(
+    [],
+)
+seny reqwest
+TExt {"by":"tannhaeuser","id":25280839,"kids":[25280883],"parent":25280370,"text":"Except when it doesn&#x27;t, at which point you&#x27;re lost.","time":1606939301,"type":"comment"}
+mESSAGE :FoundNodes(
+    [
+        25280883,
+    ],
+)
+sending reqwest
+seny reqwest
+TExt {"by":"cpuguy83","id":25281751,"parent":25280540,"text":"Being nitpicky here, but the canonical representation of &quot;containerd&quot; is all lowercase, as in the logo.","time":1606943728,"type":"comment"}
+mESSAGE :FoundNodes(
+    [],
+)
+seny reqwest
+TExt {"by":"LimaBearz","id":25285978,"parent":25282231,"text":"My favorite opposite of this is companies running k8s, using a ansible to build state on launch..","time":1606975932,"type":"comment"}
+mESSAGE :FoundNodes(
+    [],
+)
+seny reqwest
+TExt {"by":"qz2","id":25286417,"parent":25284787,"text":"Yes. Plenty of time to think before doing.","time":1606979838,"type":"comment"}
+mESSAGE :FoundNodes(
+    [],
+)
+seny reqwest
+TExt {"by":"lokedhs","id":25285086,"parent":25284787,"text":"If you&#x27;re born in the late 40&#x27;s, you&#x27;d probably have been exposed to some punch cards but when starting work, it&#x27;d be the 70&#x27;s already. I&#x27;m sure there was still punch cards around at the time, but at least you had printing terminals if not monitor-based terminals.<p>That said, depending on where you were working, things could also change fast. You could find yourself finding that a kernel system call had changed because someone patched it the evening before.","time":1606966842,"type":"comment"}
+mESSAGE :FoundNodes(
+    [],
+)
+seny reqwest
+TExt {"by":"ghaff","id":25281665,"parent":25281024,"text":"Heh. I can&#x27;t tell you, especially going back a few years, the number of people who claimed to hate Java with a passion because as far as they were concerned it was that security-shredding dialog box that would pop up demanding to be updated. (OK, there are probably other reasons to dislike Java as well but I agree it&#x27;s a lot of different things.)","time":1606943289,"type":"comment"}
+mESSAGE :FoundNodes(
+    [],
+)
+seny reqwest
+TExt {"by":"rockwotj","id":25286844,"parent":25285264,"text":"My company uses bazel to build containers and the distroless images that Google provides, it&#x27;s a really nice setup IMO","time":1606984435,"type":"comment"}
+mESSAGE :FoundNodes(
+    [],
+)
+seny reqwest
+TExt {"by":"JACKSONMEISTER","id":25286259,"kids":[25286567],"parent":25285264,"text":"Can you point to any sources using bazel for this?","time":1606978414,"type":"comment"}
+mESSAGE :FoundNodes(
+    [
+        25286567,
+    ],
+)
+seny reqwest
+TExt {"by":"chucky_z","id":25284482,"parent":25282439,"text":"Nomad 1.0 is the bomb.  I&#x27;ve ran Nomad since 0.7 and it was usable but pretty rough in those days.  1.0 is such a good, smooth thing.  Super awesome even if you don&#x27;t want to use Docker at all, you can just execute random stuff through exec&#x2F;raw_exec, or straight Java.  Heck, run it in a BSD homelab and use one of the jailshell executors.<p>It&#x27;s not Kubernetes but it doesn&#x27;t try to be at all.","time":1606961830,"type":"comment"}
+mESSAGE :FoundNodes(
+    [],
+)
+sending reqwest
+seny reqwest
+TExt {"by":"jacques_chester","id":25280883,"kids":[25286833],"parent":25280839,"text":"Well, like I said, I might have done it differently. But there&#x27;s a consistent logic to how it works[0]. That carries a lot of water.<p>[0] most folks emphasise the control loop aspect, I think it&#x27;s more helpful to point to blackboard &#x2F; tuple-space systems as prior art.","time":1606939592,"type":"comment"}
+mESSAGE :FoundNodes(
+    [
+        25286833,
+    ],
+)
+sending reqwest
+seny reqwest
+TExt {"by":"adamkf","id":25286567,"parent":25286259,"text":"<a href=\"https:&#x2F;&#x2F;github.com&#x2F;bazelbuild&#x2F;rules_docker\" rel=\"nofollow\">https:&#x2F;&#x2F;github.com&#x2F;bazelbuild&#x2F;rules_docker</a>","time":1606981420,"type":"comment"}
+mESSAGE :FoundNodes(
+    [],
+)
+seny reqwest
+TExt {"by":"tannhaeuser","id":25286833,"parent":25280883,"text":"&gt; <i>I think it&#x27;s more helpful to point to blackboard &#x2F; tuple-space systems as prior art</i><p>Ah, nevermind then, that gives me rest concerning the viability and transparency of it all.","time":1606984359,"type":"comment"}
+mESSAGE :FoundNodes(
+    [],
+)

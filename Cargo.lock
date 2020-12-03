@@ -1179,6 +1179,7 @@ checksum = "5f6310f02cfb482bb58a1ff6d000c654eff9975762a60f7fad8d821caf45562e"
 dependencies = [
  "futures",
  "log",
+ "tokio",
  "wasm-bindgen-futures",
 ]
 
@@ -2509,6 +2510,7 @@ dependencies = [
  "lazy_static",
  "memchr",
  "mio",
+ "num_cpus",
  "pin-project-lite 0.1.11",
  "slab",
 ]
